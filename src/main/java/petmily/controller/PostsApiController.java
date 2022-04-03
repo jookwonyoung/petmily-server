@@ -9,6 +9,8 @@ import petmily.controller.dto.PostsUpdateRequestDto;
 import petmily.domain.posts.Posts;
 import petmily.service.posts.PostsService;
 
+import java.util.List;
+
 @RequestMapping("/posts")
 @RequiredArgsConstructor
 @RestController
@@ -31,15 +33,20 @@ public class PostsApiController {
         return postsService.findById(id);
     }
 
-    //테스트
-    @GetMapping("/test")
-    public Posts testPosts(){
-        return new Posts("테스트제목", "테스트내용", "테스트작성자");
+    @GetMapping("/findAll")
+    public List<PostsResponseDto> findAll() {
+        return postsService.findAllDesc();
     }
 
-    @GetMapping("/test/findById/{id}")
-    public PostsResponseDto testFindById (@PathVariable Long id){
-        return postsService.findById(id);
-    }
+//    //테스트
+//    @GetMapping("/test")
+//    public Posts testPosts(){
+//        return new Posts("테스트제목", "테스트내용", "테스트작성자");
+//    }
+//
+//    @GetMapping("/test/findById/{id}")
+//    public PostsResponseDto testFindById (@PathVariable Long id){
+//        return postsService.findById(id);
+//    }
 
 }
