@@ -37,4 +37,9 @@ public class PostsApiController {
         return new Posts("테스트제목", "테스트내용", "테스트작성자");
     }
 
+    @GetMapping("/test/findById/{id}")
+    public PostsResponseDto testFindById (@PathVariable Long id){
+        return postsService.findById(id);
+    }
+
 }

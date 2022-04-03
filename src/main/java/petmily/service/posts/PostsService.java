@@ -9,6 +9,9 @@ import petmily.controller.dto.PostsUpdateRequestDto;
 import petmily.domain.posts.Posts;
 import petmily.domain.posts.PostsRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class PostsService {
@@ -34,5 +37,12 @@ public class PostsService {
                 new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
 
         return new PostsResponseDto(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostsResponseDto> findAllDesc() {
+        return postsRepository.findAllDesc().stream()
+                .map(PostsResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
