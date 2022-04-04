@@ -6,6 +6,8 @@ import petmily.controller.dto.PlacesResponseDto;
 import petmily.controller.dto.PlacesSaveRequestDto;
 import petmily.service.places.PlacesService;
 
+import java.util.List;
+
 @RequestMapping("/places")
 @RequiredArgsConstructor
 @RestController
@@ -21,5 +23,10 @@ public class PlacesApiController {
     @GetMapping("/findById/{id}")
     public PlacesResponseDto findById (@PathVariable Long id){
         return placesService.findById(id);
+    }
+
+    @GetMapping("findAll")
+    public List<PlacesResponseDto> findAll () {
+        return placesService.findAllDesc();
     }
 }

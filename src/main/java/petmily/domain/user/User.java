@@ -15,6 +15,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String phone;
+
+    private String password;
+
     @Column(nullable = false)
     private String name;
 
@@ -25,20 +29,22 @@ public class User {
     private String type;
 
     @Column(nullable = false)
-    private String birth;
+    private String petBirth;
 
-    private String userPicture;
+    private String userImg;
 
-    private String petPicture;
+    private String petImg;
 
     @Builder
-    public User(String name, String petName, String type, String birth, String userPicture, String petPicture){
+    public User(String phone, String password, String name, String petName, String type, String petBirth, String userImg, String petImg){
+        this.phone = phone;
+        this.password = password;
         this.name = name;
         this.petName = petName;
         this.type = type;
-        this.birth = birth;
-        this.userPicture = userPicture;
-        this.petPicture = petPicture;
+        this.petBirth = petBirth;
+        this.userImg = userImg;
+        this.petImg = petImg;
     }
 
 }

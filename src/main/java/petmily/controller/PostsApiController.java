@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import petmily.controller.dto.PostsResponseDto;
 import petmily.controller.dto.PostsSaveRequestDto;
 import petmily.controller.dto.PostsUpdateRequestDto;
-import petmily.domain.posts.Posts;
 import petmily.service.posts.PostsService;
 
 import java.util.List;
