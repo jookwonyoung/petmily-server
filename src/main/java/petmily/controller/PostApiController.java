@@ -19,9 +19,8 @@ public class PostApiController {
     private final PostService postService;
 
     @PostMapping("/save")
-    //@PostMapping("/api/v1/posts")
     public Long save(@RequestBody PostSaveRequestDto requestDto, @LoginUser SessionUser user){
-        //requestDto.setEmail(user.getEmail());
+        requestDto.setEmail(user.getEmail());
         return postService.save(requestDto);
     }
 

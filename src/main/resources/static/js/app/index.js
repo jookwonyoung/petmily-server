@@ -15,7 +15,6 @@ var main = {
     },
     save : function () {
         var data = {
-            email: $('#email').val(),
             postImg: $('#postImg').val(),
             postContent: $('#postContent').val()
         };
