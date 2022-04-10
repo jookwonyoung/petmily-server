@@ -13,38 +13,48 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String phone;
-
-    private String password;
+    private Long userId;
 
     @Column(nullable = false)
-    private String name;
+    private String email;
 
     @Column(nullable = false)
-    private String petName;
+    private String userName;
 
     @Column(nullable = false)
-    private String type;
-
-    @Column(nullable = false)
-    private String petBirth;
-
     private String userImg;
 
-    private String petImg;
+    private String type;
+
+    private String birth;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
 
     @Builder
-    public User(String phone, String password, String name, String petName, String type, String petBirth, String userImg, String petImg){
-        this.phone = phone;
-        this.password = password;
-        this.name = name;
-        this.petName = petName;
-        this.type = type;
-        this.petBirth = petBirth;
+    public User(String userName, String email, String userImg, String type, String birth, Role role){
+        this.userName = userName;
+        this.email = email;
         this.userImg = userImg;
-        this.petImg = petImg;
+        this.type = type;
+        this.birth = birth;
+        this.role = role;
+    }
+
+
+    public User update(String userName, String userImg) {
+        this.userName = userName;
+        this.userImg = userImg;
+//        this.type = type;
+//        this.birth = birth;
+
+        return this;
+    }
+
+    public String getRoleKey() {
+        return this.role.getKey();
     }
 
 }

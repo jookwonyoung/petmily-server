@@ -1,14 +1,11 @@
 package petmily.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import petmily.controller.dto.UserSaveRequestDto;
 import petmily.service.user.UserService;
 
-@RequestMapping("/user")
+@RequestMapping("/user/api")
 @RequiredArgsConstructor
 @RestController
 public class UserApiController {
@@ -19,4 +16,9 @@ public class UserApiController {
     public Long save(@RequestBody UserSaveRequestDto requestDto){
         return userService.save(requestDto);
     }
+
+//    @PutMapping("/update")
+//    public Long update(@PathVariable Long id, @RequestBody UserUpdateRequestDto requestDto){
+//        return userService.update(id, requestDto);
+//    }
 }

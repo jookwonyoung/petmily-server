@@ -1,36 +1,45 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>테스트 화면</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-<body>
+{{>layout/header}}
 
 <div class="col-md-12">
     <h1>테스트 화면</h1>
     <hr>
+
+    <div class="row">
+        <div class="col-md-6">
+            <a href="/post/save" role="button" class="btn btn-primary">글 등록</a>
+            {{#userName}}
+                Logged in as: <span id="user">{{userName}}</span>
+                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+            {{/userName}}
+            {{^userName}}
+                <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+            {{/userName}}
+        </div>
+    </div>
 
 
     <table class="table table-horizontal table-bordered">
         <thead class="thead-strong">
         <tr>
             <th>게시글번호</th>
-            <th>제목</th>
-            <th>작성자</th>
+            <th>사진</th>
+            <th>내용</th>
+            <th>사용자</th>
+            <th>이메일</th>
         </tr>
         </thead>
         <tbody id="tbody">
-        {{#posts}}
+        {{#post}}
             <tr>
-                <td>{{id}}</td>
-                <td><a href="/posts/update/{{id}}">{{title}}</a></td>
-                <td>{{author}}</td>
+                <td>{{postId}}</td>
+                <td>{{postImg}}</td>
+                <td>{{postContent}}</td>
+                <td>{{#userName}}{{userName}}{{/userName}}</td>
+                <td>{{email}}</td>
             </tr>
-        {{/posts}}
+        {{/post}}
         </tbody>
     </table>
 </div>
-</body>
-</html>
+
+{{>layout/footer}}
