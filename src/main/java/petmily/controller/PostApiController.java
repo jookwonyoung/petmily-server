@@ -11,7 +11,7 @@ import petmily.service.post.PostService;
 
 import java.util.List;
 
-@RequestMapping("/post/api")
+@RequestMapping("/api/post")
 @RequiredArgsConstructor
 @RestController
 public class PostApiController {

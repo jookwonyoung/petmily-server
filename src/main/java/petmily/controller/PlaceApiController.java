@@ -9,7 +9,7 @@ import petmily.service.places.PlaceService;
 
 import java.util.List;
 
-@RequestMapping("/place/api")
+@RequestMapping("/api/place")
 @RequiredArgsConstructor
 @RestController
 public class PlaceApiController {

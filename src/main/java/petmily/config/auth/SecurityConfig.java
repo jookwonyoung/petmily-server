@@ -18,14 +18,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable().headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/css/**","images/**", "/js/**", "/h2-console/**").permitAll()
-                .antMatchers("/api/post/**").hasRole(Role.USER.name())
+                .antMatchers("/", "/css/**","images/**", "/js/**", "/h2-console/**","/api/**").permitAll()
+                //.antMatchers("/api/post/**").hasRole(Role.USER.name())
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutSuccessUrl("/")
                 .and()
                 .oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
     }
-
 
 }
