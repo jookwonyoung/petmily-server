@@ -38,8 +38,8 @@ public class User {
 
     @Builder
     public User(String email, String userName, String userImg, String type, String birth, Role role){
-        this.userName = email;
-        this.email = userName;
+        this.userName = userName;
+        this.email = email;
         this.userImg = userImg;
         this.type = type;
         this.birth = birth;

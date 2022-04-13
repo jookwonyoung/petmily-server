@@ -21,7 +21,7 @@ var main = {
 
         $.ajax({
             type: 'POST',
-            url: '/post/api/save',
+            url: '/api/post/save',
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data)
