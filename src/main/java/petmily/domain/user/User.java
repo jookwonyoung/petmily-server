@@ -3,8 +3,11 @@ package petmily.domain.user;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import petmily.domain.posts.Post;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -34,9 +37,9 @@ public class User {
 
 
     @Builder
-    public User(String userName, String email, String userImg, String type, String birth, Role role){
-        this.userName = userName;
-        this.email = email;
+    public User(String email, String userName, String userImg, String type, String birth, Role role){
+        this.userName = email;
+        this.email = userName;
         this.userImg = userImg;
         this.type = type;
         this.birth = birth;

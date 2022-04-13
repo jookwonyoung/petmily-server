@@ -22,8 +22,8 @@ public class PlaceSaveRequestDto {
         this.placeName = placeName;
         this.phone = phone;
         this.address = address;
-        this.url = url;
         this.categories = categories;
+        this.url = url;
     }
 
     public Place toEntity() {
