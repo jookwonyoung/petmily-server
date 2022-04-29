@@ -1,4 +1,4 @@
-package petmily.service.places;
+package petmily.service.place;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,13 @@ public class PlaceService {
     @Transactional(readOnly = true)
     public List<PlaceListResponseDto> findAllDesc() {
         return placeRepository.findAllDesc().stream()
+                .map(PlaceListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PlaceListResponseDto> findByEmail(String email){
+        return placeRepository.findByEmail(email).stream()
                 .map(PlaceListResponseDto::new)
                 .collect(Collectors.toList());
     }

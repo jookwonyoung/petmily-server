@@ -17,8 +17,4 @@ public class UserApiController {
         return userService.save(requestDto);
     }
 
-//    @PutMapping("/update")
-//    public Long update(@PathVariable Long id, @RequestBody UserUpdateRequestDto requestDto){
-//        return userService.update(id, requestDto);
-//    }
 }

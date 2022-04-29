@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import petmily.domain.user.User;
 
-import javax.persistence.Column;
-
 @Getter
 @NoArgsConstructor
 public class UserSaveRequestDto {

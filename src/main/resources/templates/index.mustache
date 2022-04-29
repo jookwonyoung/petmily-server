@@ -6,6 +6,7 @@
 
     <div class="row">
         <div class="col-md-6">
+            <a href="/test/walk" role="button" class="btn btn-primary">내 산책기록 보기</a>
             <a href="/post/save" role="button" class="btn btn-primary">글 등록</a>
             {{#userName}}
                 Logged in as: <span id="user">{{userName}}</span>
@@ -38,6 +39,66 @@
         {{/post}}
         </tbody>
     </table>
+
+
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>장소번호</th>
+            <th>이름</th>
+            <th>전화번호</th>
+            <th>주소</th>
+            <th>카테고리</th>
+            <th>링크</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#place}}
+            <tr>
+                <td>{{placeId}}</td>
+                <td>{{PlaceName}}</td>
+                <td>{{phone}}</td>
+                <td>{{address}}</td>
+                <td>{{categories}}</td>
+                <td>{{url}}</td>
+            </tr>
+        {{/place}}
+        </tbody>
+    </table>
+
+
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>산책번호</th>
+            <th>년도</th>
+            <th>월</th>
+            <th>일</th>
+            <th>시간</th>
+            <th>이동거리</th>
+            <th>평균속도</th>
+            <th>칼로리</th>
+            <th>산책 사진</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#walk}}
+            <tr>
+                <td>{{walkId}}</td>
+                <td>{{year}}</td>
+                <td>{{month}}</td>
+                <td>{{day}}</td>
+                <td>{{time}}</td>
+                <td>{{distance}}</td>
+                <td>{{speed}}</td>
+                <td>{{calories}}</td>
+                <td>{{walkImg}}</td>
+            </tr>
+        {{/walk}}
+        </tbody>
+    </table>
+
+
 </div>
 
 {{>layout/footer}}

@@ -1,5 +1,6 @@
 package petmily.domain.comment;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,12 @@ public class Comment {
 
     @Column(nullable = false)
     private String userId;
+
+
+    @Builder
+    public Comment(String postId, String commentContent, String userId){
+        this.postId = postId;
+        this.commentContent = commentContent;
+        this.userId = userId;
+    }
 }

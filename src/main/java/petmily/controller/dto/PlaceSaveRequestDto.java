@@ -3,9 +3,11 @@ package petmily.controller.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import petmily.domain.place.Place;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class PlaceSaveRequestDto {
     private String email;

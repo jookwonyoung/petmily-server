@@ -34,10 +34,4 @@ public class PostApiController {
         return postService.findAllDesc();
     }
 
-    //게시글 수정 기능은 안할 예정
-//    @PutMapping("/update")
-//    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto){
-//        return postsService.update(id, requestDto);
-//    }
-
 }
