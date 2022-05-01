@@ -13,6 +13,7 @@ var main = {
             _this.delete();
         });
     },
+
     save : function () {
         var data = {
             postImg: $('#postImg').val(),
@@ -31,7 +32,25 @@ var main = {
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
-    }
+    },
+
+    delete : function () {
+            var year = $('#year').val();
+            var month = $('#month').val();
+            var day = $('#day').val();
+
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/walk/delete/'+year+"/"+month+"/"+day,
+                dataType: 'text',
+                contentType:'application/json; charset=utf-8'
+            }).done(function() {
+                alert('산책이 삭제되었습니다.');
+                window.location.href = '/';
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        }
 };
 
 main.init();

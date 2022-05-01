@@ -22,12 +22,11 @@ public class IndexController {
     public String index(Model model, @LoginUser SessionUser user) {
 
         model.addAttribute("post", postsService.findAllDesc());
-        model.addAttribute("place", placeService.findAllDesc());
-        model.addAttribute("walk", walkService.findAllDesc());
-
 
         if(user != null){
             model.addAttribute("userName", user.getName());
+            model.addAttribute("place", placeService.findByEmail(user.getName()));
+
         }
 
         return "index";
@@ -41,7 +40,7 @@ public class IndexController {
     //테스트하러 추가한거
     @GetMapping("/test/walk")
     public String moveToWalk(Model model, @LoginUser SessionUser user) {
-        model.addAttribute("walk", walkService.findByEmail(user.getEmail()));
+        model.addAttribute("walk", walkService.findAllDesc(user.getEmail()));
         return "walk-list";
     }
 

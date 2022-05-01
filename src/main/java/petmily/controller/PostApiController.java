@@ -24,10 +24,10 @@ public class PostApiController {
         return postService.save(requestDto);
     }
 
-    @GetMapping("/findById/{id}")
-    public PostResponseDto findById (@PathVariable Long id){
-        return postService.findById(id);
-    }
+//    @GetMapping("/findById/{id}")
+//    public PostResponseDto findById (@PathVariable Long id){
+//        return postService.findById(id);
+//    }
 
     @GetMapping("/findAll")
     public List<PostListResponseDto> findAll() {

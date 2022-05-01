@@ -22,19 +22,19 @@ public class PlaceService {
         return placeRepository.save(requestDto.toEntity()).getPlaceId();
     }
 
-    public PlaceResponseDto findById(long id){
-        Place entity = placeRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 장소가 없습니다. id="+id));
-
-        return new PlaceResponseDto(entity);
-    }
-
-    @Transactional(readOnly = true)
-    public List<PlaceListResponseDto> findAllDesc() {
-        return placeRepository.findAllDesc().stream()
-                .map(PlaceListResponseDto::new)
-                .collect(Collectors.toList());
-    }
+//    public PlaceResponseDto findById(long id){
+//        Place entity = placeRepository.findById(id).orElseThrow(() ->
+//                new IllegalArgumentException("해당 장소가 없습니다. id="+id));
+//
+//        return new PlaceResponseDto(entity);
+//    }
+//
+//    @Transactional(readOnly = true)
+//    public List<PlaceListResponseDto> findAllDesc() {
+//        return placeRepository.findAllDesc().stream()
+//                .map(PlaceListResponseDto::new)
+//                .collect(Collectors.toList());
+//    }
 
     @Transactional(readOnly = true)
     public List<PlaceListResponseDto> findByEmail(String email){

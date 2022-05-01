@@ -25,13 +25,12 @@ public class WalkApiController {
     }
 
     @GetMapping("/findAll")
-    public List<WalkListResponseDto> findAll(){
-        return walkService.findAllDesc();
+    public List<WalkListResponseDto> findAll(@LoginUser SessionUser user){
+        return walkService.findAllDesc(user.getEmail());
     }
 
-    @GetMapping("/findByEmail")
-    public List<WalkListResponseDto> findByEmail(@LoginUser SessionUser user){
-        return walkService.findByEmail(user.getEmail());
+    @DeleteMapping("/delete/{year}/{month}/{day}")
+    public void delete(@PathVariable int year, @PathVariable int month,@PathVariable int day ,@LoginUser SessionUser user) {
+        walkService.delete(year, month, day, user.getEmail());
     }
-
 }

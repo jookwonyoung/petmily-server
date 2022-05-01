@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import petmily.controller.dto.*;
+import petmily.domain.walk.Walk;
 import petmily.domain.walk.WalkRepository;
 
 import java.util.List;
@@ -22,17 +23,16 @@ public class WalkService {
     }
 
     @Transactional(readOnly = true)
-    public List<WalkListResponseDto> findAllDesc(){
-        return walkRepository.findAllDesc().stream()
+    public List<WalkListResponseDto> findAllDesc(String email){
+        return walkRepository.findAllDesc(email).stream()
                 .map(WalkListResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<WalkListResponseDto> findByEmail(String email){
-        return walkRepository.findByEmail(email).stream()
-                .map(WalkListResponseDto::new)
-                .collect(Collectors.toList());
+    @Transactional
+    public void delete(int year, int month, int day, String email) {
+        Walk walk = walkRepository.findByEmail(year, month, day, email);
+        walkRepository.delete(walk);
     }
 
 }

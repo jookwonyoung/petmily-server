@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface PlaceRepository extends JpaRepository<Place, Long> {
 
-    @Query("SELECT p FROM Place p ORDER BY p.id DESC")
-    List<Place> findAllDesc();
+//    @Query("SELECT p FROM Place p ORDER BY p.id DESC")
+//    List<Place> findAllDesc();
 
     @Query("SELECT p FROM Place p WHERE p.email = :email")
     List<Place> findByEmail(@Param("email") String email);
