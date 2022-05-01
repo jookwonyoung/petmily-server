@@ -12,13 +12,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 public class PostsRepositoryTest {
 
-    @Autowired
-    PostRepository postsRepository;
-
-    @After  //단위테스트 끝날 때마다 수행
-    public void cleanup() {
-        postsRepository.deleteAll();
-    }
+//    @Autowired
+//    PostRepository postsRepository;
+//
+//    @After  //단위테스트 끝날 때마다 수행
+//    public void cleanup() {
+//        postsRepository.deleteAll();
+//    }
 
 //    @Test
 //    public void 게시글저장_불러오기() {
