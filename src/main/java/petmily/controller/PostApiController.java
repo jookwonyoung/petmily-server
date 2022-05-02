@@ -24,6 +24,11 @@ public class PostApiController {
         return postService.save(requestDto);
     }
 
+    @PostMapping("/testSave")
+    public Long testSave(@RequestBody PostSaveRequestDto requestDto){
+        return postService.save(requestDto);
+    }
+
 //    @GetMapping("/findById/{id}")
 //    public PostResponseDto findById (@PathVariable Long id){
 //        return postService.findById(id);
