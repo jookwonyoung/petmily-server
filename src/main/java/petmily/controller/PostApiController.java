@@ -21,10 +21,16 @@ public class PostApiController {
     private final PostService postService;
 
     @PostMapping("/save")                              //이미지 파일
-    public Long save(@RequestHeader(value="email") String email, @RequestParam("file") MultipartFile files, @RequestParam("postContent") String content){
-        String rootPath = "/home/ec2-user/petmilyServer/step1/imgDB";
-        //String rootPath = "/Users/jookwonyoung/testImg";
+    public Long save(@RequestHeader(value="email") String email, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
+        String rootPath = "/home/ec2-user/petmilyServer/step1/imgDB/post";        //ec2-server
+        //String rootPath = "/Users/jookwonyoung/Documents/petmily/testImg/post";     //localhost
         String emailPath = rootPath + "/" + email;
+        String conType = files.getContentType();
+        if(!(conType.equals("image/png") || conType.equals("image/jpeg"))){
+            Long error = null;
+            return error;
+        }
+
         if (!new File(emailPath).exists()) {
             try{
                 new File(emailPath).mkdir();
@@ -50,12 +56,12 @@ public class PostApiController {
         return postService.save(requestDto);
     }
 
-    @PostMapping("/testSave")
-    public Long testSave(@RequestHeader(value="email") String email, @RequestBody PostSaveRequestDto requestDto){
-        System.out.println("$$$$$$$$$$$$$$$$$$$"+email);
-        requestDto.setEmail(email);
-        return postService.save(requestDto);
-    }
+//    @PostMapping("/testSave")
+//    public Long testSave(@RequestHeader(value="email") String email, @RequestBody PostSaveRequestDto requestDto){
+//        System.out.println("$$$$$$$$$$$$$$$$$$$"+email);
+//        requestDto.setEmail(email);
+//        return postService.save(requestDto);
+//    }
 
 //    @GetMapping("/findById/{id}")
 //    public PostResponseDto findById (@PathVariable Long id){
