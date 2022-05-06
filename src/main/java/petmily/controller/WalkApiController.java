@@ -2,13 +2,16 @@ package petmily.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import petmily.config.auth.LoginUser;
-import petmily.config.auth.dto.SessionUser;
+import org.springframework.web.multipart.MultipartFile;
+import petmily.controller.dto.PostSaveRequestDto;
 import petmily.controller.dto.WalkListResponseDto;
 import petmily.controller.dto.WalkSaveRequestDto;
 import petmily.service.walk.WalkService;
 
+import javax.persistence.Column;
+import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 
 @RequestMapping("/api/walk")
@@ -19,18 +22,58 @@ public class WalkApiController {
     private final WalkService walkService;
 
     @PostMapping("/save")
-    public Long save(@RequestBody WalkSaveRequestDto requestDto, @LoginUser SessionUser user){
-        requestDto.setEmail(user.getEmail());
+    public Long save(@RequestHeader(value="email") String email, @RequestParam("year") int year,
+                     @RequestParam("month") int month, @RequestParam("day") int day,
+                     @RequestParam("img") MultipartFile files, @RequestParam("avgSpeedInKMH") float avgSpeedInKMH,
+                     @RequestParam("distanceInMeters") int distanceInMeters, @RequestParam("timeInMillis") long timeInMillis,
+                     @RequestParam("caloriesBurned") int caloriesBurned, @RequestParam("id") int id){
+
+        String rootPath = "/home/ec2-user/petmilyServer/step1/imgDB/walk";        //ec2-server
+        //String rootPath = "/Users/jookwonyoung/Documents/petmily/testImg/walk";     //localhost
+        String emailPath = rootPath + "/" + email;
+        String conType = files.getContentType();
+        if(!(conType.equals("image/png") || conType.equals("image/jpeg"))){
+            Long error = null;
+            return error;
+        }
+        if (!new File(emailPath).exists()) {
+            try{
+                new File(emailPath).mkdir();
+            }
+            catch(Exception e){
+                e.getStackTrace();
+            }
+        }
+        Random random = new Random();
+        String filename = String.valueOf(System.currentTimeMillis())+random.nextInt();
+        String filePath = emailPath + "/" + filename;
+        try {
+            files.transferTo(new File(filePath));
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        WalkSaveRequestDto requestDto = new WalkSaveRequestDto();
+        requestDto.setEmail(email);
+        requestDto.setYear(year);
+        requestDto.setMonth(month);
+        requestDto.setDay(day);
+        requestDto.setImg(filename);
+        requestDto.setAvgSpeedInKMH(avgSpeedInKMH);
+        requestDto.setCaloriesBurned(caloriesBurned);
+        requestDto.setDistanceInMeters(distanceInMeters);
+        requestDto.setId(id);
+        requestDto.setTimeInMillis(timeInMillis);
         return walkService.save(requestDto);
     }
 
     @GetMapping("/findAll/{year}/{month}/{day}")
-    public List<WalkListResponseDto> findAll(@PathVariable int year, @PathVariable int month,@PathVariable int day, @LoginUser SessionUser user){
-        return walkService.findAllDesc(year, month, day, user.getEmail());
+    public List<WalkListResponseDto> findAll(@RequestHeader(value="email") String email, @PathVariable int year, @PathVariable int month,@PathVariable int day){
+        return walkService.findAllDesc(year, month, day, email);
     }
 
-    @DeleteMapping("/delete/{num}/{year}/{month}/{day}")
-    public void delete(@PathVariable int num,@PathVariable int year, @PathVariable int month,@PathVariable int day ,@LoginUser SessionUser user) {
-        walkService.delete(num, year, month, day, user.getEmail());
+    @DeleteMapping("/delete/{id}/{year}/{month}/{day}")
+    public void delete(@RequestHeader(value="email") String email, @PathVariable int id,@PathVariable int year, @PathVariable int month,@PathVariable int day) {
+        walkService.delete(id, year, month, day, email);
     }
 }

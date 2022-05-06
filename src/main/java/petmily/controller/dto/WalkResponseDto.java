@@ -7,29 +7,29 @@ import petmily.domain.walk.Walk;
 public class WalkResponseDto {
 
     private Long walkId;
-    private int num;
     private String email;
     private int year;
     private int month;
     private int day;
-    private long time;
-    private int distance;
-    private float speed;
-    private int calories;
-    private String walkImg;
+    private String img;
+    private float avgSpeedInKMH;
+    private int distanceInMeters;
+    private long timeInMillis;
+    private int caloriesBurned;
+    private int id;
 
     public WalkResponseDto(Walk entity){
         this.walkId = entity.getWalkId();
-        this.num = entity.getNum();
         this.email = entity.getEmail();
         this.year = entity.getYear();
         this.month = entity.getMonth();
         this.day = entity.getDay();
-        this.time = entity.getTime();
-        this.distance = entity.getDistance();
-        this.speed = entity.getSpeed();
-        this.calories = entity.getCalories();
-        this.walkImg = entity.getWalkImg();
+        this.img = entity.getImg();
+        this.avgSpeedInKMH = entity.getAvgSpeedInKMH();
+        this.distanceInMeters = entity.getDistanceInMeters();
+        this.timeInMillis = entity.getTimeInMillis();
+        this.caloriesBurned = entity.getCaloriesBurned();
+        this.id = entity.getId();
     }
 
 }

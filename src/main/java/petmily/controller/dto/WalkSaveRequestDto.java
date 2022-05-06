@@ -11,42 +11,42 @@ import petmily.domain.walk.Walk;
 @NoArgsConstructor
 public class WalkSaveRequestDto {
     private String email;
-    private int num;
     private int year;
     private int month;
     private int day;
-    private long time;
-    private int distance;
-    private float speed;
-    private int calories;
-    private String walkImg;
+    private String img;
+    private float avgSpeedInKMH;
+    private int distanceInMeters;
+    private long timeInMillis;
+    private int caloriesBurned;
+    private int id;
 
     @Builder
-    public WalkSaveRequestDto(int num, String email, int year, int month, int day, long time, int distance, float speed, int calories, String walkImg){
+    public WalkSaveRequestDto(String email, int year, int month, int day, String img, float avgSpeedInKMH, int distanceInMeters, long timeInMillis, int caloriesBurned, int id){
         this.email = email;
-        this.num = num;
         this.year = year;
         this.month = month;
         this.day = day;
-        this.time = time;
-        this.distance = distance;
-        this.speed = speed;
-        this.calories = calories;
-        this.walkImg = walkImg;
+        this.img = img;
+        this.avgSpeedInKMH = avgSpeedInKMH;
+        this.distanceInMeters = distanceInMeters;
+        this.timeInMillis = timeInMillis;
+        this.caloriesBurned = caloriesBurned;
+        this.id = id;
     }
 
     public Walk toEntity() {
         return Walk.builder()
                 .email(email)
-                .num(num)
                 .year(year)
                 .month(month)
                 .day(day)
-                .time(time)
-                .distance(distance)
-                .speed(speed)
-                .calories(calories)
-                .walkImg(walkImg)
+                .img(img)
+                .avgSpeedInKMH(avgSpeedInKMH)
+                .distanceInMeters(distanceInMeters)
+                .timeInMillis(timeInMillis)
+                .caloriesBurned(caloriesBurned)
+                .id(id)
                 .build();
     }
 

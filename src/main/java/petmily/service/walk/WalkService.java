@@ -30,8 +30,8 @@ public class WalkService {
     }
 
     @Transactional
-    public void delete(int num, int year, int month, int day, String email) {
-        Walk walk = walkRepository.findByEmail(num, year, month, day, email);
+    public void delete(int id, int year, int month, int day, String email) {
+        Walk walk = walkRepository.findByEmail(id, year, month, day, email);
         walkRepository.delete(walk);
     }
 

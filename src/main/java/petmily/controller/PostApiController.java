@@ -49,7 +49,6 @@ public class PostApiController {
         }
 
         PostSaveRequestDto requestDto = new PostSaveRequestDto();
-
         requestDto.setPostImg(filename);
         requestDto.setEmail(email);
         requestDto.setPostContent(content);
