@@ -35,13 +35,14 @@ var main = {
     },
 
     delete : function () {
+            var num = $('#num').val();
             var year = $('#year').val();
             var month = $('#month').val();
             var day = $('#day').val();
 
             $.ajax({
                 type: 'DELETE',
-                url: '/api/walk/delete/'+year+"/"+month+"/"+day,
+                url: '/api/walk/delete/'+num+"/"+year+"/"+month+"/"+day,
                 dataType: 'text',
                 contentType:'application/json; charset=utf-8'
             }).done(function() {

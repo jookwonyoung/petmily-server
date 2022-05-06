@@ -6,6 +6,7 @@ import petmily.domain.walk.Walk;
 @Getter
 public class WalkListResponseDto {
     private Long walkId;
+    private int num;
     private String email;
     private int year;
     private int month;
@@ -18,6 +19,7 @@ public class WalkListResponseDto {
 
     public WalkListResponseDto(Walk entity){
         this.walkId = entity.getWalkId();
+        this.num = entity.getNum();
         this.email = entity.getEmail();
         this.year = entity.getYear();
         this.month = entity.getMonth();

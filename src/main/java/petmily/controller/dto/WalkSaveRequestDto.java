@@ -11,6 +11,7 @@ import petmily.domain.walk.Walk;
 @NoArgsConstructor
 public class WalkSaveRequestDto {
     private String email;
+    private int num;
     private int year;
     private int month;
     private int day;
@@ -21,8 +22,9 @@ public class WalkSaveRequestDto {
     private String walkImg;
 
     @Builder
-    public WalkSaveRequestDto(String email, int year, int month, int day, long time, int distance, float speed, int calories, String walkImg){
+    public WalkSaveRequestDto(int num, String email, int year, int month, int day, long time, int distance, float speed, int calories, String walkImg){
         this.email = email;
+        this.num = num;
         this.year = year;
         this.month = month;
         this.day = day;
@@ -36,6 +38,7 @@ public class WalkSaveRequestDto {
     public Walk toEntity() {
         return Walk.builder()
                 .email(email)
+                .num(num)
                 .year(year)
                 .month(month)
                 .day(day)

@@ -18,6 +18,9 @@ public class Walk {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = true)
+    private int num;
+
     private int year;
     private int month;
     private int day;
@@ -29,7 +32,8 @@ public class Walk {
 
 
     @Builder
-    public Walk(String email, int year, int month, int day, long time, int distance, float speed, int calories, String walkImg){
+    public Walk(int num, String email, int year, int month, int day, long time, int distance, float speed, int calories, String walkImg){
+        this.num = num;
         this.email = email;
         this.year = year;
         this.month = month;

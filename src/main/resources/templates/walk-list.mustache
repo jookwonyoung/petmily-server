@@ -6,7 +6,8 @@
 <table class="table table-horizontal table-bordered">
     <thead class="thead-strong">
     <tr>
-        <th>산책번호</th>
+        <th>전체 산책번호</th>
+        <th>일별 산책번호</th>
         <th>년도</th>
         <th>월</th>
         <th>일</th>
@@ -21,6 +22,7 @@
     {{#walk}}
         <tr>
             <td>{{walkId}}</td>
+            <td>{{num}}</td>
             <td>{{year}}</td>
             <td>{{month}}</td>
             <td>{{day}}</td>
@@ -45,6 +47,10 @@
     <div class="form-group">
         <label for="day">일</label>
         <input type="text" class="form-control" id="day">
+    </div>
+    <div class="form-group">
+        <label for="num">일별 산책번호(num)</label>
+        <input type="text" class="form-control" id="num">
     </div>
     <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
 

@@ -23,15 +23,15 @@ public class WalkService {
     }
 
     @Transactional(readOnly = true)
-    public List<WalkListResponseDto> findAllDesc(String email){
-        return walkRepository.findAllDesc(email).stream()
+    public List<WalkListResponseDto> findAllDesc(int year, int month, int day, String email){
+        return walkRepository.findAllDesc(year, month, day, email).stream()
                 .map(WalkListResponseDto::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public void delete(int year, int month, int day, String email) {
-        Walk walk = walkRepository.findByEmail(year, month, day, email);
+    public void delete(int num, int year, int month, int day, String email) {
+        Walk walk = walkRepository.findByEmail(num, year, month, day, email);
         walkRepository.delete(walk);
     }
 

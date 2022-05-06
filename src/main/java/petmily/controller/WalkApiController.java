@@ -24,13 +24,13 @@ public class WalkApiController {
         return walkService.save(requestDto);
     }
 
-    @GetMapping("/findAll")
-    public List<WalkListResponseDto> findAll(@LoginUser SessionUser user){
-        return walkService.findAllDesc(user.getEmail());
+    @GetMapping("/findAll/{year}/{month}/{day}")
+    public List<WalkListResponseDto> findAll(@PathVariable int year, @PathVariable int month,@PathVariable int day, @LoginUser SessionUser user){
+        return walkService.findAllDesc(year, month, day, user.getEmail());
     }
 
-    @DeleteMapping("/delete/{year}/{month}/{day}")
-    public void delete(@PathVariable int year, @PathVariable int month,@PathVariable int day ,@LoginUser SessionUser user) {
-        walkService.delete(year, month, day, user.getEmail());
+    @DeleteMapping("/delete/{num}/{year}/{month}/{day}")
+    public void delete(@PathVariable int num,@PathVariable int year, @PathVariable int month,@PathVariable int day ,@LoginUser SessionUser user) {
+        walkService.delete(num, year, month, day, user.getEmail());
     }
 }

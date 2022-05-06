@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import petmily.config.auth.LoginUser;
 import petmily.config.auth.dto.SessionUser;
 import petmily.controller.dto.PlaceListResponseDto;
-import petmily.controller.dto.PlaceResponseDto;
 import petmily.controller.dto.PlaceSaveRequestDto;
 import petmily.service.place.PlaceService;
 
@@ -19,8 +18,8 @@ public class PlaceApiController {
     private final PlaceService placeService;
 
     @PostMapping("/save")
-    public Long save(@RequestBody PlaceSaveRequestDto requestDto, @LoginUser SessionUser user){
-        requestDto.setEmail(user.getEmail());
+    public Long save(@RequestHeader(value="email") String email, @RequestBody PlaceSaveRequestDto requestDto){
+        requestDto.setEmail(email);
         return placeService.save(requestDto);
     }
 
@@ -35,8 +34,8 @@ public class PlaceApiController {
 //    }
 
     @GetMapping("/findByEmail")
-    public List<PlaceListResponseDto> findByEmail(@LoginUser SessionUser user){
-        return placeService.findByEmail(user.getEmail());
+    public List<PlaceListResponseDto> findByEmail(@RequestHeader(value="email") String email){
+        return placeService.findByEmail(email);
     }
 
 }

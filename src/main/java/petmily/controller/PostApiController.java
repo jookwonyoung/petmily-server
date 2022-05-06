@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import petmily.config.auth.LoginUser;
 import petmily.config.auth.dto.SessionUser;
 import petmily.controller.dto.PostListResponseDto;
-import petmily.controller.dto.PostResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.service.post.PostService;
 
@@ -25,7 +24,9 @@ public class PostApiController {
     }
 
     @PostMapping("/testSave")
-    public Long testSave(@RequestBody PostSaveRequestDto requestDto){
+    public Long testSave(@RequestHeader(value="email") String email, @RequestBody PostSaveRequestDto requestDto){
+        System.out.println("$$$$$$$$$$$$$$$$$$$"+email);
+        requestDto.setEmail(email);
         return postService.save(requestDto);
     }
 

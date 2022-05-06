@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import petmily.config.auth.LoginUser;
 import petmily.config.auth.dto.SessionUser;
 import petmily.service.place.PlaceService;
@@ -26,7 +27,6 @@ public class IndexController {
         if(user != null){
             model.addAttribute("userName", user.getName());
             model.addAttribute("place", placeService.findByEmail(user.getName()));
-
         }
 
         return "index";
@@ -39,10 +39,14 @@ public class IndexController {
 
     //테스트하러 추가한거
     @GetMapping("/test/walk")
-    public String moveToWalk(Model model, @LoginUser SessionUser user) {
-        model.addAttribute("walk", walkService.findAllDesc(user.getEmail()));
+    public String moveToWalk(Model model, @PathVariable int year, @PathVariable int month, @PathVariable int day, @LoginUser SessionUser user) {
+        model.addAttribute("walk", walkService.findAllDesc(year, month, day, user.getEmail()));
         return "walk-list";
     }
+    //여기까지 산책
+
+
+
 
 //    @GetMapping("/posts/update/{id}")
 //    public String postsUpdate(@PathVariable Long id, Model model) {
