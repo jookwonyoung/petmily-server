@@ -19,7 +19,10 @@ public class WalkService {
 
     @Transactional
     public Long save(WalkSaveRequestDto requestDto){
-        return walkRepository.save(requestDto.toEntity()).getWalkId();
+        Long id = walkRepository.save(requestDto.toEntity()).getWalkId();
+        Walk walk = walkRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.valueOf(id)));
+        walk.update(id);
+        return id;
     }
 
     @Transactional(readOnly = true)

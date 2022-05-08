@@ -3,15 +3,12 @@ package petmily.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import petmily.controller.dto.PostSaveRequestDto;
 import petmily.controller.dto.WalkListResponseDto;
 import petmily.controller.dto.WalkSaveRequestDto;
 import petmily.service.walk.WalkService;
 
-import javax.persistence.Column;
 import java.io.File;
 import java.util.List;
-import java.util.Random;
 
 
 @RequestMapping("/api/walk")
@@ -27,6 +24,18 @@ public class WalkApiController {
                      @RequestParam("img") MultipartFile files, @RequestParam("avgSpeedInKMH") float avgSpeedInKMH,
                      @RequestParam("distanceInMeters") int distanceInMeters, @RequestParam("timeInMillis") long timeInMillis,
                      @RequestParam("caloriesBurned") int caloriesBurned, @RequestParam("id") int id){
+
+        WalkSaveRequestDto requestDto = new WalkSaveRequestDto();
+        requestDto.setEmail(email);
+        requestDto.setYear(year);
+        requestDto.setMonth(month);
+        requestDto.setDay(day);
+        requestDto.setAvgSpeedInKMH(avgSpeedInKMH);
+        requestDto.setCaloriesBurned(caloriesBurned);
+        requestDto.setDistanceInMeters(distanceInMeters);
+        requestDto.setId(id);
+        requestDto.setTimeInMillis(timeInMillis);
+        Long walkId = walkService.save(requestDto);
 
         String rootPath = "/home/ec2-user/petmilyServer/step1/imgDB/walk";        //ec2-server
         //String rootPath = "/Users/jookwonyoung/Documents/petmily/testImg/walk";     //localhost
@@ -44,27 +53,15 @@ public class WalkApiController {
                 e.getStackTrace();
             }
         }
-        Random random = new Random();
-        String filename = String.valueOf(System.currentTimeMillis())+random.nextInt();
-        String filePath = emailPath + "/" + filename;
+
+        String filePath = emailPath + "/" + walkId;
         try {
             files.transferTo(new File(filePath));
         }catch(Exception e) {
             e.printStackTrace();
         }
 
-        WalkSaveRequestDto requestDto = new WalkSaveRequestDto();
-        requestDto.setEmail(email);
-        requestDto.setYear(year);
-        requestDto.setMonth(month);
-        requestDto.setDay(day);
-        requestDto.setImg(filename);
-        requestDto.setAvgSpeedInKMH(avgSpeedInKMH);
-        requestDto.setCaloriesBurned(caloriesBurned);
-        requestDto.setDistanceInMeters(distanceInMeters);
-        requestDto.setId(id);
-        requestDto.setTimeInMillis(timeInMillis);
-        return walkService.save(requestDto);
+        return walkId;
     }
 
     @GetMapping("/findAll/{year}/{month}/{day}")

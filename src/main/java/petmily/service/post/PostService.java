@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import petmily.controller.dto.PostListResponseDto;
-import petmily.controller.dto.PostResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.domain.posts.Post;
 import petmily.domain.posts.PostRepository;
@@ -19,7 +18,10 @@ public class PostService {
 
     @Transactional
     public Long save(PostSaveRequestDto requestDto){
-        return  postRepository.save(requestDto.toEntity()).getPostId();
+        Long id =  postRepository.save(requestDto.toEntity()).getPostId();
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.valueOf(id)));
+        post.update(id);
+        return id;
     }
 
     @Transactional

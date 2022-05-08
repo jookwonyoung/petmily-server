@@ -44,4 +44,8 @@ public class Walk {
         this.id = id;
     }
 
+    public void update(Long id) {
+        this.img = id.toString();
+    }
+
 }

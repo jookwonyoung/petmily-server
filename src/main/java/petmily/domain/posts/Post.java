@@ -18,7 +18,7 @@ public class Post {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+
     private String postImg;
 
     @Column(columnDefinition = "TEXT")
@@ -33,6 +33,9 @@ public class Post {
         this.postContent = postContent;
     }
 
+    public void update(Long id) {
+        this.postImg = id.toString();
+    }
 
 
 //    public void update(String title, String content){

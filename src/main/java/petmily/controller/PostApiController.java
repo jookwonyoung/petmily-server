@@ -3,15 +3,12 @@ package petmily.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import petmily.config.auth.LoginUser;
-import petmily.config.auth.dto.SessionUser;
 import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.service.post.PostService;
 
 import java.io.File;
 import java.util.List;
-import java.util.Random;
 
 @RequestMapping("/api/post")
 @RequiredArgsConstructor
@@ -22,15 +19,25 @@ public class PostApiController {
 
     @PostMapping("/save")                              //이미지 파일
     public Long save(@RequestHeader(value="email") String email, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
+        PostSaveRequestDto requestDto = new PostSaveRequestDto();
+        requestDto.setEmail(email);
+        requestDto.setPostContent(content);
+        Long postId =  postService.save(requestDto);    //저장할 postImg(filename)
+
+
         String rootPath = "/home/ec2-user/petmilyServer/step1/imgDB/post";        //ec2-server
         //String rootPath = "/Users/jookwonyoung/Documents/petmily/testImg/post";     //localhost
-        String emailPath = rootPath + "/" + email;
+
+        String emailPath = rootPath + "/" + email;  //최종 폴더
+
+        //png, jpeg만 저장
         String conType = files.getContentType();
         if(!(conType.equals("image/png") || conType.equals("image/jpeg"))){
             Long error = null;
             return error;
         }
 
+        //폴더
         if (!new File(emailPath).exists()) {
             try{
                 new File(emailPath).mkdir();
@@ -39,20 +46,15 @@ public class PostApiController {
                 e.getStackTrace();
             }
         }
-        Random random = new Random();
-        String filename = String.valueOf(System.currentTimeMillis())+random.nextInt();
-        String filePath = emailPath + "/" + filename;
+
+        String filePath = emailPath + "/" + postId;
         try {
             files.transferTo(new File(filePath));
         }catch(Exception e) {
             e.printStackTrace();
         }
 
-        PostSaveRequestDto requestDto = new PostSaveRequestDto();
-        requestDto.setPostImg(filename);
-        requestDto.setEmail(email);
-        requestDto.setPostContent(content);
-        return postService.save(requestDto);
+        return postId;
     }
 
 //    @PostMapping("/testSave")
