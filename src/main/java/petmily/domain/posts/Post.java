@@ -18,7 +18,7 @@ public class Post {
     @Column(nullable = false)
     private String email;
 
-
+    @Column(nullable = false)
     private String postImg;
 
     @Column(columnDefinition = "TEXT")
