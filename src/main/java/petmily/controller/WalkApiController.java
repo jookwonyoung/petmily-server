@@ -37,8 +37,13 @@ public class WalkApiController {
         requestDto.setTimeInMillis(timeInMillis);
         Long walkId = walkService.save(requestDto);
 
-        String rootPath = "/home/ec2-user/petmilyServer/step1/imgDB/walk";        //ec2-server
-        //String rootPath = "/Users/jookwonyoung/Documents/petmily/testImg/walk";     //localhost
+        String rootPath;
+        if(new File("/home/ec2-user/petmilyServer/step1/imgDB/walk").exists()){
+            rootPath = "/home/ec2-user/petmilyServer/step1/imgDB/walk";        //ec2-server
+        }else{
+            rootPath = "/Users/jookwonyoung/Documents/petmily/testImg/walk";     //localhost
+        }
+
         String emailPath = rootPath + "/" + email;
         String conType = files.getContentType();
         if(!(conType.equals("image/png") || conType.equals("image/jpeg"))){

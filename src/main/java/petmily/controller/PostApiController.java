@@ -24,12 +24,16 @@ public class PostApiController {
         requestDto.setPostContent(content);
         Long postId =  postService.save(requestDto);    //저장할 postImg(filename)
 
+        String rootPath;
+        if(new File("/home/ec2-user/petmilyServer/step1/imgDB/post").exists()){
+            rootPath = "/home/ec2-user/petmilyServer/step1/imgDB/post";        //ec2-server
+        }else{
+            rootPath = "/Users/jookwonyoung/Documents/petmily/testImg/post";     //localhost
+        }
 
-        String rootPath = "/home/ec2-user/petmilyServer/step1/imgDB/post";        //ec2-server
-        //String rootPath = "/Users/jookwonyoung/Documents/petmily/testImg/post";     //localhost
 
-        String emailPath = rootPath + "/" + email;  //최종 폴더
-
+        //최종 폴더
+        String emailPath = rootPath + "/" + email;
         //png, jpeg만 저장
         String conType = files.getContentType();
         if(!(conType.equals("image/png") || conType.equals("image/jpeg"))){
