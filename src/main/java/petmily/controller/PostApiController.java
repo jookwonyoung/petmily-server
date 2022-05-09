@@ -21,41 +21,44 @@ public class PostApiController {
     private final UserService userService;
     private final PostService postService;
 
-    private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg/post";
-    private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB/post";
-    String rootPath;
+    private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg";
+    private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB";
+    String userRootPath;
+    String postRootPath;
 
     @PostMapping("/save")
     public Long save(@RequestHeader(value="email") String email, @RequestParam("userImg") MultipartFile userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
 
-        //user 객체
+        if(new File(ec2Path+"/user").exists()){
+            userRootPath = ec2Path+"/user";        //ec2-server
+            postRootPath = ec2Path+"/post";        //ec2-server
+        }else{
+            userRootPath = localPath+"/user";     //localhost
+            postRootPath = localPath+"/post";     //localhost
+        }
+
         UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
         saveRequestDto.setEmail(email);
         saveRequestDto.setUserImg(email);
-        userService.save(saveRequestDto);
-        //
+        Long userId = userService.save(saveRequestDto);
 
         PostSaveRequestDto requestDto = new PostSaveRequestDto();
         requestDto.setEmail(email);
         requestDto.setPostContent(content);
         Long postId =  postService.save(requestDto);    //저장할 postImg(filename)
 
-        if(new File(ec2Path).exists()){
-            rootPath = ec2Path;        //ec2-server
-        }else{
-            rootPath = localPath;     //localhost
-        }
-
-        //png, jpeg만 저장
+        String userConType = userImg.getContentType();
         String conType = files.getContentType();
-        if(!(conType.equals("image/png") || conType.equals("image/jpeg"))){
+        if(!(userConType.equals("image/png") || userConType.equals("image/jpeg") || conType.equals("image/png") || conType.equals("image/jpeg"))){
             Long error = null;
             return error;
         }
 
-        String filePath = rootPath + "/" + postId;
+        String userFilePath = userRootPath + "/" + userId;
+        String filePath = postRootPath + "/" + postId;
         try {
             files.transferTo(new File(filePath));
+            userImg.transferTo(new File(userFilePath));
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -90,7 +93,7 @@ public class PostApiController {
 
     @GetMapping(value = "/getImg", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getImage() throws IOException {
-        InputStream in = new FileInputStream(ec2Path+"/1");   //파일 읽어오기
+        InputStream in = new FileInputStream(localPath+"/1");   //파일 읽어오기
         byte[] imgByteArray = in.readAllBytes();                       //byte로 변환
         in.close();
 

@@ -27,6 +27,9 @@ public class User {
         this.userImg = userImg;
     }
 
+    public void update(Long id) {
+        this.userImg = id.toString();
+    }
 
 //    public User update(String userName, String userImg) {
 //        this.userName = userName;
