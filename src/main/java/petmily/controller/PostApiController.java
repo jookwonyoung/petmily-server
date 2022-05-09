@@ -90,7 +90,7 @@ public class PostApiController {
 
     @GetMapping(value = "/getImg", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getImage() throws IOException {
-        InputStream in = new FileInputStream(rootPath+"/1");   //파일 읽어오기
+        InputStream in = new FileInputStream(ec2Path+"/1");   //파일 읽어오기
         byte[] imgByteArray = in.readAllBytes();                       //byte로 변환
         in.close();
 
