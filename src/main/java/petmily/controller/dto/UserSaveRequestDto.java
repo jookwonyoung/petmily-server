@@ -3,34 +3,26 @@ package petmily.controller.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import petmily.domain.user.User;
 
+@Setter
 @Getter
 @NoArgsConstructor
 public class UserSaveRequestDto {
-    private String userName;
     private String email;
     private String userImg;
-    private String type;
-    private String birth;
 
     @Builder
-    public UserSaveRequestDto(String userName, String email, String userImg, String type, String birth){
-        this.userName = userName;
+    public UserSaveRequestDto(String email, String userImg){
         this.email = email;
         this.userImg = userImg;
-        this.type = type;
-        this.birth = birth;
-
     }
 
     public User toEntity() {
         return User.builder()
-                .userName(userName)
                 .email(email)
                 .userImg(userImg)
-                .type(type)
-                .birth(birth)
                 .build();
     }
 }

@@ -1,13 +1,16 @@
 package petmily.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import petmily.controller.dto.PostListResponseDto;
-import petmily.controller.dto.PostSaveRequestDto;
+import petmily.controller.dto.*;
 import petmily.service.post.PostService;
+import petmily.service.user.UserService;
 
-import java.io.File;
+import java.io.*;
 import java.util.List;
 
 @RequestMapping("/api/post")
@@ -15,25 +18,34 @@ import java.util.List;
 @RestController
 public class PostApiController {
 
+    private final UserService userService;
     private final PostService postService;
 
-    @PostMapping("/save")                              //이미지 파일
-    public Long save(@RequestHeader(value="email") String email, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
+    private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg/post";
+    private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB/post";
+    String rootPath;
+
+    @PostMapping("/save")
+    public Long save(@RequestHeader(value="email") String email, @RequestParam("userImg") MultipartFile userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
+
+        //user 객체
+        UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
+        saveRequestDto.setEmail(email);
+        saveRequestDto.setUserImg(email);
+        userService.save(saveRequestDto);
+        //
+
         PostSaveRequestDto requestDto = new PostSaveRequestDto();
         requestDto.setEmail(email);
         requestDto.setPostContent(content);
         Long postId =  postService.save(requestDto);    //저장할 postImg(filename)
 
-        String rootPath;
-        if(new File("/home/ec2-user/petmilyServer/step1/imgDB/post").exists()){
-            rootPath = "/home/ec2-user/petmilyServer/step1/imgDB/post";        //ec2-server
+        if(new File(ec2Path).exists()){
+            rootPath = ec2Path;        //ec2-server
         }else{
-            rootPath = "/Users/jookwonyoung/Documents/petmily/testImg/post";     //localhost
+            rootPath = localPath;     //localhost
         }
 
-
-        //최종 폴더
-        String emailPath = rootPath + "/" + email;
         //png, jpeg만 저장
         String conType = files.getContentType();
         if(!(conType.equals("image/png") || conType.equals("image/jpeg"))){
@@ -41,17 +53,7 @@ public class PostApiController {
             return error;
         }
 
-        //폴더
-        if (!new File(emailPath).exists()) {
-            try{
-                new File(emailPath).mkdir();
-            }
-            catch(Exception e){
-                e.getStackTrace();
-            }
-        }
-
-        String filePath = emailPath + "/" + postId;
+        String filePath = rootPath + "/" + postId;
         try {
             files.transferTo(new File(filePath));
         }catch(Exception e) {
@@ -61,21 +63,37 @@ public class PostApiController {
         return postId;
     }
 
-//    @PostMapping("/testSave")
-//    public Long testSave(@RequestHeader(value="email") String email, @RequestBody PostSaveRequestDto requestDto){
-//        System.out.println("$$$$$$$$$$$$$$$$$$$"+email);
-//        requestDto.setEmail(email);
-//        return postService.save(requestDto);
-//    }
 
-//    @GetMapping("/findById/{id}")
-//    public PostResponseDto findById (@PathVariable Long id){
-//        return postService.findById(id);
-//    }
 
-    @GetMapping("/findAll")
-    public List<PostListResponseDto> findAll() {
-        return postService.findAllDesc();
+
+    @GetMapping(value = "/findById/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<PostEndListResponseDto> findById (@PathVariable Long id) throws IOException {
+        PostResponseDto tmpDto = postService.findById(id);
+
+        InputStream in = new FileInputStream(localPath+"/"+id);   //파일 읽어오기
+        byte[] imgByteArray = in.readAllBytes();                       //byte로 변환
+        in.close();
+
+
+        PostEndListResponseDto resultDto = new PostEndListResponseDto(tmpDto.getPostId(), tmpDto.getEmail(),
+                                                                        imgByteArray, tmpDto.getPostContent());
+
+        return new ResponseEntity<PostEndListResponseDto>(resultDto, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/findAll", produces = MediaType.IMAGE_JPEG_VALUE)
+    public List<PostListResponseDto> findAll() throws IOException  {
+        List<PostListResponseDto> responseDtoList = postService.findAllDesc();  //이미지 string 타입 객체 list
+
+        return responseDtoList;
+    }
+
+    @GetMapping(value = "/getImg", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getImage() throws IOException {
+        InputStream in = new FileInputStream(rootPath+"/1");   //파일 읽어오기
+        byte[] imgByteArray = in.readAllBytes();                       //byte로 변환
+        in.close();
+
+        return new ResponseEntity<byte[]>(imgByteArray, HttpStatus.OK);
+    }
 }

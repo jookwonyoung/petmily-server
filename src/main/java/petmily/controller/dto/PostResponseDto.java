@@ -2,9 +2,11 @@
 package petmily.controller.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 import petmily.domain.posts.Post;
 
 @Getter
+@Setter
 public class PostResponseDto {
 
     private Long postId;

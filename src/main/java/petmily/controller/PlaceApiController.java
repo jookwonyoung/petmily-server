@@ -2,8 +2,6 @@ package petmily.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import petmily.config.auth.LoginUser;
-import petmily.config.auth.dto.SessionUser;
 import petmily.controller.dto.PlaceListResponseDto;
 import petmily.controller.dto.PlaceSaveRequestDto;
 import petmily.service.place.PlaceService;

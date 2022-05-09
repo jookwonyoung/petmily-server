@@ -35,10 +35,4 @@ public class Post {
     public void update(Long id) {
         this.postImg = id.toString();
     }
-
-
-//    public void update(String title, String content){
-//        //this.title = title;
-//        this.content = content;
-//    }
 }
