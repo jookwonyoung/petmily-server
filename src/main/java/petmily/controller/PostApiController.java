@@ -26,8 +26,48 @@ public class PostApiController {
     String userRootPath;
     String postRootPath;
 
+//    @PostMapping("/save")
+//    public Long save(@RequestHeader(value="email") String email, @RequestParam("userImg") MultipartFile userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
+//
+//        if(new File(ec2Path+"/user").exists()){
+//            userRootPath = ec2Path+"/user";        //ec2-server
+//            postRootPath = ec2Path+"/post";        //ec2-server
+//        }else{
+//            userRootPath = localPath+"/user";     //localhost
+//            postRootPath = localPath+"/post";     //localhost
+//        }
+//
+//        UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
+//        saveRequestDto.setEmail(email);
+//        saveRequestDto.setUserImg(email);
+//        Long userId = userService.save(saveRequestDto);
+//
+//        PostSaveRequestDto requestDto = new PostSaveRequestDto();
+//        requestDto.setEmail(email);
+//        requestDto.setPostContent(content);
+//        Long postId =  postService.save(requestDto);    //저장할 postImg(filename)
+//
+//        String userConType = userImg.getContentType();
+//        String conType = files.getContentType();
+//        if(!(userConType.equals("image/png") || userConType.equals("image/jpeg") || conType.equals("image/png") || conType.equals("image/jpeg"))){
+//            Long error = null;
+//            return error;
+//        }
+//
+//        String userFilePath = userRootPath + "/" + userId;
+//        String filePath = postRootPath + "/" + postId;
+//        try {
+//            files.transferTo(new File(filePath));
+//            userImg.transferTo(new File(userFilePath));
+//        }catch(Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return postId;
+//    }
+
     @PostMapping("/save")
-    public Long save(@RequestHeader(value="email") String email, @RequestParam("userImg") MultipartFile userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
+    public Long save(@RequestHeader(value="email") String email, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
 
         if(new File(ec2Path+"/user").exists()){
             userRootPath = ec2Path+"/user";        //ec2-server
@@ -37,28 +77,20 @@ public class PostApiController {
             postRootPath = localPath+"/post";     //localhost
         }
 
-        UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
-        saveRequestDto.setEmail(email);
-        saveRequestDto.setUserImg(email);
-        Long userId = userService.save(saveRequestDto);
-
         PostSaveRequestDto requestDto = new PostSaveRequestDto();
         requestDto.setEmail(email);
         requestDto.setPostContent(content);
         Long postId =  postService.save(requestDto);    //저장할 postImg(filename)
 
-        String userConType = userImg.getContentType();
         String conType = files.getContentType();
-        if(!(userConType.equals("image/png") || userConType.equals("image/jpeg") || conType.equals("image/png") || conType.equals("image/jpeg"))){
+        if(!(conType.equals("image/png") || conType.equals("image/jpeg"))){
             Long error = null;
             return error;
         }
 
-        String userFilePath = userRootPath + "/" + userId;
         String filePath = postRootPath + "/" + postId;
         try {
             files.transferTo(new File(filePath));
-            userImg.transferTo(new File(userFilePath));
         }catch(Exception e) {
             e.printStackTrace();
         }
