@@ -123,8 +123,13 @@ public class PostApiController {
 
     @GetMapping(value = "/getImg", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getImage() throws IOException {
-        InputStream in = new FileInputStream(ec2Path+"/post/31");   //파일 읽어오기
-        byte[] imgByteArray = in.readAllBytes();                            //byte로 변환
+        InputStream in;
+        try{
+            in = new FileInputStream(ec2Path+"/post/test");   //파일 읽어오기
+        }catch (Exception e){
+            in = new FileInputStream(localPath+"/post/1");   //파일 읽어오기
+        }
+        byte[] imgByteArray = in.readAllBytes();                    //byte로 변환
         in.close();
         return new ResponseEntity<byte[]>(imgByteArray, HttpStatus.OK);
     }
