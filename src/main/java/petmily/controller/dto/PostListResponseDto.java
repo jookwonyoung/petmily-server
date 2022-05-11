@@ -15,14 +15,21 @@ public class PostListResponseDto {
     private byte[] postImg;
     private String postContent;
 
-    public PostListResponseDto(Post entity)  {
+    public PostListResponseDto(Post entity) {
+
+        String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB";
 
         this.postId = entity.getPostId();
         this.email = entity.getEmail();
         try {
+            InputStream in;
             String img = entity.getPostImg();
-            InputStream in = new FileInputStream(img);
+
+            in = new FileInputStream(ec2Path + "/post/test");   //파일 읽어오기
             this.postImg = in.readAllBytes();
+            in.close();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
