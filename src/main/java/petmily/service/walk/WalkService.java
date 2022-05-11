@@ -26,8 +26,15 @@ public class WalkService {
     }
 
     @Transactional(readOnly = true)
-    public List<WalkListResponseDto> findAllDesc(int year, int month, int day, String email){
-        return walkRepository.findAllDesc(year, month, day, email).stream()
+    public List<WalkListResponseDto> findAllDesc(String email){
+        return walkRepository.findAllDesc(email).stream()
+                .map(WalkListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<WalkListResponseDto> findEmailDesc(int year, int month, int day, String email){
+        return walkRepository.findEmailDesc(year, month, day, email).stream()
                 .map(WalkListResponseDto::new)
                 .collect(Collectors.toList());
     }

@@ -69,9 +69,14 @@ public class WalkApiController {
         return walkId;
     }
 
-    @GetMapping("/findAll/{year}/{month}/{day}")
-    public List<WalkListResponseDto> findAll(@RequestHeader(value="email") String email, @PathVariable int year, @PathVariable int month,@PathVariable int day){
-        return walkService.findAllDesc(year, month, day, email);
+    @GetMapping("findAll")
+    public List<WalkListResponseDto> findAll(@RequestHeader(value="email") String email){
+        return walkService.findAllDesc(email);
+    }
+
+    @GetMapping("/findByEmail/{year}/{month}/{day}")
+    public List<WalkListResponseDto> findByEmail(@RequestHeader(value="email") String email, @PathVariable int year, @PathVariable int month,@PathVariable int day){
+        return walkService.findEmailDesc(year, month, day, email);
     }
 
     @DeleteMapping("/delete/{id}/{year}/{month}/{day}")
