@@ -130,7 +130,7 @@ public class PostApiController {
         InputStream in;
         try {
             try {
-                in = new FileInputStream(ec2Path + "/post/test/" + id);   //파일 읽어오기
+                in = new FileInputStream(ec2Path + "/post/" + id);   //파일 읽어오기
             } catch (Exception e) {
                 in = new FileInputStream(localPath + "/post/1");   //파일 읽어오기
             }
