@@ -1,9 +1,11 @@
 package petmily.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.SerializationUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import petmily.controller.dto.*;
@@ -100,28 +102,36 @@ public class PostApiController {
 
 
     @GetMapping(value = "/findById/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<PostEndListResponseDto> findById (@PathVariable Long id) throws IOException {
+    public PostResponseDto findById (@PathVariable Long id) throws IOException {
         PostResponseDto tmpDto = postService.findById(id);
 
-        InputStream in = new FileInputStream(localPath+"/"+id);   //파일 읽어오기
+        InputStream in = new FileInputStream(localPath+"/post/"+id);   //파일 읽어오기
         byte[] imgByteArray = in.readAllBytes();                       //byte로 변환
         in.close();
 
-        PostEndListResponseDto resultDto = new PostEndListResponseDto(tmpDto.getPostId(), tmpDto.getEmail(), imgByteArray, tmpDto.getPostContent());
-        return new ResponseEntity<PostEndListResponseDto>(resultDto, HttpStatus.OK);
+        tmpDto.setPostImg(imgByteArray.toString());
+
+        //PostEndListResponseDto resultDto = new PostEndListResponseDto(tmpDto.getPostId(), tmpDto.getEmail(), imgByteArray, tmpDto.getPostContent());
+        //byte[] result = SerializationUtils.serialize(resultDto);
+
+//        //테스트
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        byte[] fuck = outputStream.toByteArray();
+
+        return tmpDto;
+    }
+
+    @GetMapping(value = "/getImg", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getImage() throws IOException {
+        InputStream in = new FileInputStream(ec2Path+"/post/31");   //파일 읽어오기
+        byte[] imgByteArray = in.readAllBytes();                            //byte로 변환
+        in.close();
+        return new ResponseEntity<byte[]>(imgByteArray, HttpStatus.OK);
     }
 
     @GetMapping(value = "/findAll")
     public List<PostListResponseDto> findAll(){
         List<PostListResponseDto> responseDtoList = postService.findAllDesc();
         return responseDtoList;
-    }
-
-    @GetMapping(value = "/getImg", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImage() throws IOException {
-        InputStream in = new FileInputStream(localPath+"/1");   //파일 읽어오기
-        byte[] imgByteArray = in.readAllBytes();                       //byte로 변환
-        in.close();
-        return new ResponseEntity<byte[]>(imgByteArray, HttpStatus.OK);
     }
 }

@@ -3,12 +3,14 @@ package petmily.service.post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import petmily.controller.dto.PostEndListResponseDto;
 import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.PostResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.domain.posts.Post;
 import petmily.domain.posts.PostRepository;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
