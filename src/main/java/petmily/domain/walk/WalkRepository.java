@@ -12,7 +12,7 @@ public interface WalkRepository extends JpaRepository<Walk, Long> {
     List<Walk> findAllDesc(@Param("email") String email);
 
     @Query("SELECT w FROM Walk w WHERE w.year = :year and  w.month = :month and w.day = :day and w.email = :email")
-    List<Walk> findEmailDesc(@Param("year") int year, @Param("month") int month, @Param("day") int day, @Param("email") String email);
+    List<Walk> findDateDesc(@Param("year") int year, @Param("month") int month, @Param("day") int day, @Param("email") String email);
 
     @Query("SELECT w FROM Walk w WHERE w.id = :id and w.year = :year and  w.month = :month and w.day = :day and w.email = :email")
     Walk findByEmail(@Param("id") int num, @Param("year") int year, @Param("month") int month, @Param("day") int day, @Param("email") String email);
