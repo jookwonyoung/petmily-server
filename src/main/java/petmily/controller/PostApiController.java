@@ -86,13 +86,15 @@ public class PostApiController {
         PostSaveRequestDto requestDto = new PostSaveRequestDto();
         requestDto.setEmail(email);
         requestDto.setPostContent(content);
-        Long postId = postService.save(requestDto);    //저장할 postImg(filename)
 
+        // 파일 형식이 사진이면 저장
         String conType = files.getContentType();
         if (!(conType.equals("image/png") || conType.equals("image/jpeg"))) {
-            Long error = null;
-            return error;
+            return null;
         }
+
+        // 파일에 문제가 없을 경우 저장
+        Long postId = postService.save(requestDto);    //저장할 postImg(filename)
 
         String filePath = postRootPath + "/" + postId;
         try {
@@ -101,7 +103,15 @@ public class PostApiController {
             e.printStackTrace();
         }
 
-        return postId;
+        // 개고양이 포함되어있는지 확인하는 코드
+        if (postService.isThereCatAndDog(filePath)) {
+            return postId;
+        } else {
+            // 개와 고양이가 없으면 포스트를 삭제
+            postService.delete(postId);
+        }
+
+        return null;
     }
 
 
