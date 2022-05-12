@@ -1,11 +1,10 @@
 package petmily.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.SerializationUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import petmily.controller.dto.*;
@@ -25,11 +24,11 @@ public class PostApiController {
 
     private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg";
     private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB";
-    String userRootPath;
-    String postRootPath;
+    String userRootPath;    //user 폴더
+    String postRootPath;    //post 폴더
 
     @PostMapping("/save")
-    public Long save(@RequestHeader(value="email") String email, @RequestParam("userImg") MultipartFile userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
+    public Long save(@RequestHeader(value="email") String email, @RequestParam("userImg") @Nullable MultipartFile userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
 
         if(new File(ec2Path+"/user").exists()){
             userRootPath = ec2Path+"/user";        //ec2-server
@@ -101,37 +100,40 @@ public class PostApiController {
     }
 
 
-    @GetMapping(value = "/findById/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public PostResponseDto findById (@PathVariable Long id) throws IOException {
-        PostResponseDto tmpDto = postService.findById(id);
+//    @GetMapping(value = "/findById/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+//    public PostResponseDto findById (@PathVariable Long id) throws IOException {
+//        PostResponseDto tmpDto = postService.findById(id);
+//
+//        InputStream in;
+//        in = new FileInputStream(localPath+"/post/"+id);
+//        byte[] imgByteArray = in.readAllBytes();
+//        in.close();
+//
+//        String strByte = new String(imgByteArray, StandardCharsets.UTF_8);
+//
+//        System.out.println("strByte"+strByte);
+//
+//        tmpDto.setPostImg(strByte);
+//        //PostEndListResponseDto responseEntity= new PostEndListResponseDto(tmpDto.getPostId(), tmpDto.getEmail(), tmpDto.);
+//        return tmpDto;
+//    }
 
-        InputStream in = new FileInputStream(localPath+"/post/"+id);   //파일 읽어오기
-        byte[] imgByteArray = in.readAllBytes();                       //byte로 변환
-        in.close();
 
-        tmpDto.setPostImg(imgByteArray.toString());
-
-        //PostEndListResponseDto resultDto = new PostEndListResponseDto(tmpDto.getPostId(), tmpDto.getEmail(), imgByteArray, tmpDto.getPostContent());
-        //byte[] result = SerializationUtils.serialize(resultDto);
-
-//        //테스트
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        byte[] fuck = outputStream.toByteArray();
-
-        return tmpDto;
-    }
-
-    @GetMapping(value = "/getImg", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImage() throws IOException {
+    @GetMapping(value = "/getImg/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
         InputStream in;
-        try{
-            in = new FileInputStream(ec2Path+"/post/test");   //파일 읽어오기
-        }catch (Exception e){
-            in = new FileInputStream(localPath+"/post/1");   //파일 읽어오기
+        try {
+            try {
+                in = new FileInputStream(ec2Path + "/post/" + id);   //파일 읽어오기
+            } catch (Exception e) {
+                in = new FileInputStream(localPath + "/post/" + id);   //파일 읽어오기
+            }
+            byte[] imgByteArray = in.readAllBytes();                    //byte로 변환
+            in.close();
+            return new ResponseEntity<byte[]>(imgByteArray, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        byte[] imgByteArray = in.readAllBytes();                    //byte로 변환
-        in.close();
-        return new ResponseEntity<byte[]>(imgByteArray, HttpStatus.OK);
     }
 
     @GetMapping(value = "/findAll")

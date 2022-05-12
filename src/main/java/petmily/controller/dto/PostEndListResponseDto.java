@@ -1,13 +1,8 @@
 package petmily.controller.dto;
 
 import lombok.Getter;
-import org.springframework.http.HttpEntity;
-import petmily.domain.posts.Post;
-
-import java.io.Serializable;
-
 @Getter
-public class PostEndListResponseDto implements Serializable {
+public class PostEndListResponseDto{
 
     private Long postId;
     private String email;
