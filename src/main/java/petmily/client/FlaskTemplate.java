@@ -18,7 +18,7 @@ public class FlaskTemplate {
 
     @Autowired
     private final RestTemplate restTemplate;
-    String url = "localhost:34343/";
+    String url = "http://localhost:34343/";
 
     public FlaskTemplate(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
