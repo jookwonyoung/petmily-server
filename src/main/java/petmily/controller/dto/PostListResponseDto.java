@@ -23,12 +23,10 @@ public class PostListResponseDto {
         this.email = entity.getEmail();
         try {
             InputStream in;
-            String img = entity.getPostImg();
 
             in = new FileInputStream(ec2Path + "/post/"+entity.getPostId());   //파일 읽어오기
             this.postImg = in.readAllBytes();
             in.close();
-
 
         } catch (IOException e) {
             e.printStackTrace();

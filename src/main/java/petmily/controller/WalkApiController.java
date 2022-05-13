@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import petmily.controller.dto.UserSaveRequestDto;
+import petmily.controller.dto.WalkImgListResponseDto;
 import petmily.controller.dto.WalkListResponseDto;
 import petmily.controller.dto.WalkSaveRequestDto;
 import petmily.service.user.UserService;
@@ -94,7 +95,7 @@ public class WalkApiController {
     }
 
     @GetMapping("/findByDate/{year}/{month}/{day}")
-    public List<WalkListResponseDto> findByDate(@RequestHeader(value="email") String email, @PathVariable int year, @PathVariable int month,@PathVariable int day){
+    public List<WalkImgListResponseDto> findByDate(@RequestHeader(value="email") String email, @PathVariable int year, @PathVariable int month, @PathVariable int day){
         return walkService.findDateDesc(year, month, day, email);
     }
 
