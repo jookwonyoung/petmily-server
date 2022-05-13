@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 //
-    @Query("SELECT c FROM Comment c WHERE c.postId = :postId")
-    List<Comment> findAllDesc(@Param("postId") Long postId);
+    @Query("SELECT c FROM Comment c ORDER BY c.id DESC")
+    List<Comment> findAll();
 }

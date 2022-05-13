@@ -1,9 +1,11 @@
 package petmily.controller.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 import petmily.domain.comment.Comment;
 
 @Getter
+@Setter
 public class CommentListResponseDto {
 
     private Long commentId;
