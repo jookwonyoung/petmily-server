@@ -33,7 +33,7 @@ public class WalkImgListResponseDto {       //
         try {
             InputStream in;
 
-            in = new FileInputStream(emailPath + entity.getWalkId());   //파일 읽어오기
+            in = new FileInputStream(emailPath + "/" + entity.getWalkId());   //파일 읽어오기
             this.img = in.readAllBytes();
             in.close();
 
