@@ -18,5 +18,4 @@ public class PostListResponseDto {
         this.postContent = entity.getPostContent();
     }
 
-
 }

@@ -1,17 +1,22 @@
 package petmily.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import petmily.controller.dto.*;
+import petmily.controller.dto.PostListResponseDto;
+import petmily.controller.dto.PostResponseDto;
+import petmily.controller.dto.PostSaveRequestDto;
+import petmily.controller.dto.UserSaveRequestDto;
 import petmily.service.post.PostService;
 import petmily.service.user.UserService;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RequestMapping("/api/post")
@@ -28,14 +33,14 @@ public class PostApiController {
     String postRootPath;    //post 폴더
 
     @PostMapping("/save")
-    public Long save(@RequestHeader(value="email") String email, @RequestParam("userImg") @Nullable MultipartFile userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
+    public Long save(@RequestHeader(value = "email") String email, @RequestParam("userImg") MultipartFile userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content) {
 
-        if(new File(ec2Path+"/user").exists()){
-            userRootPath = ec2Path+"/user";        //ec2-server
-            postRootPath = ec2Path+"/post";        //ec2-server
-        }else{
-            userRootPath = localPath+"/user";     //localhost
-            postRootPath = localPath+"/post";     //localhost
+        if (new File(ec2Path + "/user").exists()) {
+            userRootPath = ec2Path + "/user";        //ec2-server
+            postRootPath = ec2Path + "/post";        //ec2-server
+        } else {
+            userRootPath = localPath + "/user";     //localhost
+            postRootPath = localPath + "/post";     //localhost
         }
 
         UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
@@ -46,11 +51,11 @@ public class PostApiController {
         PostSaveRequestDto requestDto = new PostSaveRequestDto();
         requestDto.setEmail(email);
         requestDto.setPostContent(content);
-        Long postId =  postService.save(requestDto);    //저장할 postImg(filename)
+        Long postId = postService.save(requestDto);    //저장할 postImg(filename)
 
         String userConType = userImg.getContentType();
         String conType = files.getContentType();
-        if(!(userConType.equals("image/png") || userConType.equals("image/jpeg") || conType.equals("image/png") || conType.equals("image/jpeg"))){
+        if (!(userConType.equals("image/png") || userConType.equals("image/jpeg") || conType.equals("image/png") || conType.equals("image/jpeg"))) {
             Long error = null;
             return error;
         }
@@ -60,7 +65,7 @@ public class PostApiController {
         try {
             files.transferTo(new File(filePath));
             userImg.transferTo(new File(userFilePath));
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -68,35 +73,45 @@ public class PostApiController {
     }
 
     @PostMapping("/testSave")
-    public Long save(@RequestHeader(value="email") String email, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content){
+    public Long save(@RequestHeader(value = "email") String email, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content) {
 
-        if(new File(ec2Path+"/user").exists()){
-            userRootPath = ec2Path+"/user";        //ec2-server
-            postRootPath = ec2Path+"/post";        //ec2-server
-        }else{
-            userRootPath = localPath+"/user";     //localhost
-            postRootPath = localPath+"/post";     //localhost
+        if (new File(ec2Path + "/user").exists()) {
+            userRootPath = ec2Path + "/user";        //ec2-server
+            postRootPath = ec2Path + "/post";        //ec2-server
+        } else {
+            userRootPath = localPath + "/user";     //localhost
+            postRootPath = localPath + "/post";     //localhost
         }
 
         PostSaveRequestDto requestDto = new PostSaveRequestDto();
         requestDto.setEmail(email);
         requestDto.setPostContent(content);
-        Long postId =  postService.save(requestDto);    //저장할 postImg(filename)
 
+        // 파일 형식이 사진이면 저장
         String conType = files.getContentType();
-        if(!(conType.equals("image/png") || conType.equals("image/jpeg"))){
-            Long error = null;
-            return error;
+        if (!(conType.equals("image/png") || conType.equals("image/jpeg"))) {
+            return null;
         }
+
+        // 파일에 문제가 없을 경우 저장
+        Long postId = postService.save(requestDto);    //저장할 postImg(filename)
 
         String filePath = postRootPath + "/" + postId;
         try {
             files.transferTo(new File(filePath));
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return postId;
+        // 개고양이 포함되어있는지 확인하는 코드
+        if (postService.isThereCatAndDog(filePath)) {
+            return postId;
+        } else {
+            // 개와 고양이가 없으면 포스트를 삭제
+            postService.delete(postId);
+        }
+
+        return null;
     }
 
 
@@ -137,7 +152,7 @@ public class PostApiController {
     }
 
     @GetMapping(value = "/findAll")
-    public List<PostListResponseDto> findAll(){
+    public List<PostListResponseDto> findAll() {
         List<PostListResponseDto> responseDtoList = postService.findAllDesc();
         return responseDtoList;
     }
