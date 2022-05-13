@@ -26,8 +26,8 @@ public class WalkApiController {
     private final UserService userService;
     private final WalkService walkService;
 
-    private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg";
-    private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB";
+    private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg/walk";
+    private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB/walk";
     String emailPath;       //walk/email 폴더
 
     @PostMapping("/save")
@@ -55,10 +55,10 @@ public class WalkApiController {
         requestDto.setTimeInMillis(timeInMillis);
         Long walkId = walkService.save(requestDto);
 
-        if(new File(ec2Path+"/walk").exists()){
-            emailPath =  ec2Path + "/walk/" + email;
+        if(new File(ec2Path).exists()){
+            emailPath =  ec2Path + "/" + email;
         }else{
-            emailPath = localPath + "/walk/" + email;
+            emailPath = localPath + "/" + email;
         }
 
         String conType = files.getContentType();

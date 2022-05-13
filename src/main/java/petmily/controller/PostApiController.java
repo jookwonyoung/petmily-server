@@ -25,17 +25,17 @@ public class PostApiController {
     private final UserService userService;
     private final PostService postService;
 
-    private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg";
-    private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB";
+    private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg/post";
+    private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB/post";
     String postRootPath;    //post 폴더
 
     @PostMapping("/save")
     public Long save(@RequestHeader(value = "email") String email, @RequestParam("userImg") String userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content) {
 
-        if (new File(ec2Path + "/user").exists()) {
-            postRootPath = ec2Path + "/post";        //ec2-server
+        if (new File(ec2Path ).exists()) {
+            postRootPath = ec2Path;        //ec2-server
         } else {
-            postRootPath = localPath + "/post";     //localhost
+            postRootPath = localPath;     //localhost
         }
 
         UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
@@ -69,9 +69,9 @@ public class PostApiController {
         InputStream in;
         try {
             try {
-                in = new FileInputStream(ec2Path + "/post/" + id);   //파일 읽어오기
+                in = new FileInputStream(ec2Path + "/" + id);   //파일 읽어오기
             } catch (Exception e) {
-                in = new FileInputStream(localPath + "/post/" + id);   //파일 읽어오기
+                in = new FileInputStream(localPath + "/" + id);   //파일 읽어오기
             }
             byte[] imgByteArray = in.readAllBytes();                    //byte로 변환
             in.close();
