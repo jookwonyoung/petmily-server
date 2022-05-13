@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Getter
-public class WalkImgListResponseDto {
+public class WalkImgListResponseDto {       //
     private Long walkId;
     private String email;
     private int year;
