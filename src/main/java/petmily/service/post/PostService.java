@@ -11,8 +11,6 @@ import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.domain.posts.Post;
 import petmily.domain.posts.PostRepository;
-import petmily.domain.user.User;
-import petmily.domain.user.UserRepository;
 import petmily.service.user.UserService;
 
 import java.io.IOException;

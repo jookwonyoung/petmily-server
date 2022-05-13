@@ -27,17 +27,4 @@ public class User {
         this.userImg = userImg;
     }
 
-//    public User update(String userName, String userImg) {
-//        this.userName = userName;
-//        this.userImg = userImg;
-//        this.type = type;
-//        this.birth = birth;
-//
-//        return this;
-//    }
-//
-//    public String getRoleKey() {
-//        return this.role.getKey();
-//    }
-
 }

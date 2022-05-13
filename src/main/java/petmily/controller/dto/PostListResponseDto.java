@@ -20,7 +20,7 @@ public class PostListResponseDto {
     private String userImg;
 
     public PostListResponseDto(Post entity, String userImg) {
-
+        //
         String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB";
         //String ec2Path = "/Users/jookwonyoung/Documents/petmily/testImg";
 
