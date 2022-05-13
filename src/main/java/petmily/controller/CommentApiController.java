@@ -1,11 +1,10 @@
 package petmily.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import petmily.controller.dto.CommentListResponseDto;
+import petmily.controller.dto.CommentSaveRequestDto;
+import petmily.controller.dto.PlaceSaveRequestDto;
 import petmily.service.comment.commentService;
 
 import java.util.List;
@@ -20,8 +19,13 @@ public class CommentApiController {
     @GetMapping(value = "/findByPostId/{postId}")
     public List<CommentListResponseDto> findByPostId(@PathVariable Long postId) {
         List<CommentListResponseDto> responseDtoList = commentService.findAllDesc(postId);
-
-
         return responseDtoList;
     }
+
+    @PostMapping("/save")
+    public Long save(@RequestHeader(value="email") String email, @RequestBody CommentSaveRequestDto requestDto){
+        requestDto.setEmail(email);
+        return commentService.save(requestDto);
+    }
+
 }

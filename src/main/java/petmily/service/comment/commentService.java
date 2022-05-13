@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import petmily.controller.dto.CommentListResponseDto;
+import petmily.controller.dto.CommentSaveRequestDto;
+import petmily.controller.dto.PlaceSaveRequestDto;
 import petmily.controller.dto.PostListResponseDto;
 import petmily.domain.comment.CommentRepository;
 
@@ -16,6 +18,11 @@ import java.util.stream.Collectors;
 public class commentService {
 
     private final CommentRepository commentRepository;
+
+    @Transactional
+    public Long save(CommentSaveRequestDto requestDto){
+        return commentRepository.save(requestDto.toEntity()).getCommentId();
+    }
 
     @Transactional(readOnly = true)
     public List<CommentListResponseDto> findAllDesc(Long postId) {
