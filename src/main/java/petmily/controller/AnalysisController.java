@@ -1,6 +1,7 @@
 package petmily.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,10 +25,59 @@ public class AnalysisController {
     public String breedDog(@RequestParam("img") MultipartFile img) {
 
 
+        String filePath = saveImg(img);
+        if (filePath == null) return "not valid image";
 
+        String result = analysisService.breedDog(filePath);
+
+        deleteImg(filePath);
+
+        return result;
+    }
+
+
+    @GetMapping("/breed/cat")
+    public String breedCat(@RequestParam("img") MultipartFile img) {
+        String filePath = saveImg(img);
+        if (filePath == null) return "not valid image";
+
+        String result = analysisService.breedCat(filePath);
+
+        deleteImg(filePath);
+
+        return result;
+    }
+
+    @GetMapping("/emotion")
+    public String emotion(@RequestParam("img") MultipartFile img) {
+        String filePath = saveImg(img);
+        if (filePath == null) return "not valid image";
+
+        String result = analysisService.emotion(filePath);
+
+        deleteImg(filePath);
+
+        return result;
+    }
+
+    private void deleteImg(String filePath) {
+        try {
+            File file = new File(filePath);
+            if (file.exists()) {
+                if (!file.delete()) {
+                    System.out.println("파일삭제 실패");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Nullable
+    private String saveImg(MultipartFile img) {
         String conType = img.getContentType();
         if (!(conType.equals("image/png") || conType.equals("image/jpeg"))) {
-            return "not valid image";
+            return null;
         }
 
         String filePath = ec2Path + "/" + System.currentTimeMillis();
@@ -36,35 +86,6 @@ public class AnalysisController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        String result =  analysisService.breedDog(filePath);
-
-        try {
-            File file = new File(filePath);
-            if (file.exists()) {
-                if(file.delete()) {
-                    System.out.println("파일삭제 성공");
-                } else {
-                    System.out.println("파일삭제 실패");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return result;
+        return filePath;
     }
-
-    @GetMapping("/breed/cat")
-    public String breedCat(@RequestParam("img") String img) {
-        return analysisService.breedCat(img);
-
-    }
-
-    @GetMapping("/emotion")
-    public String emotion(@RequestParam("img") String img) {
-        return analysisService.emotion(img);
-
-    }
-
 }
