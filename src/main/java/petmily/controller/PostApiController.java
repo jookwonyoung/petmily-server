@@ -109,6 +109,8 @@ public class PostApiController {
     @GetMapping(value = "/findAll")
     public List<PostListResponseDto> findAll() {
         List<PostListResponseDto> responseDtoList = postService.findAllDesc();
+
+
         return responseDtoList;
     }
 }

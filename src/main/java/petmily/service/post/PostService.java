@@ -31,17 +31,6 @@ public class PostService {
         return id;
     }
 
-    @Transactional
-    public Long testSave(PostSaveRequestDto requestDto){
-        return  postRepository.save(requestDto.toEntity()).getPostId();
-    }
-
-    public PostResponseDto findById(long id){
-        Post entity = postRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
-
-        return new PostResponseDto(entity);
-    }
 
     @Transactional(readOnly = true)
     public List<PostListResponseDto> findAllDesc() {

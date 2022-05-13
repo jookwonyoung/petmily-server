@@ -29,7 +29,6 @@ public class WalkApiController {
 
     private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg";
     private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB";
-    String userRootPath;    //user 폴더
     String emailPath;       //walk/email 폴더
 
     @PostMapping("/save")
@@ -37,11 +36,12 @@ public class WalkApiController {
                      @RequestParam("month") int month, @RequestParam("day") int day,
                      @RequestParam("img") MultipartFile files, @RequestParam("avgSpeedInKMH") float avgSpeedInKMH,
                      @RequestParam("distanceInMeters") int distanceInMeters, @RequestParam("timeInMillis") long timeInMillis,
-                     @RequestParam("caloriesBurned") int caloriesBurned, @RequestParam("id") int id){
+                     @RequestParam("caloriesBurned") int caloriesBurned, @RequestParam("id") int id,
+                     @RequestParam("userImg") String userImg){
 
         UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
         saveRequestDto.setEmail(email);
-        saveRequestDto.setUserImg(email);
+        saveRequestDto.setUserImg(userImg);
         Long userId = userService.save(saveRequestDto);
 
         WalkSaveRequestDto requestDto = new WalkSaveRequestDto();
@@ -57,10 +57,8 @@ public class WalkApiController {
         Long walkId = walkService.save(requestDto);
 
         if(new File(ec2Path+"/walk").exists()){
-            userRootPath = ec2Path + "/user";
             emailPath =  ec2Path + "/walk/" + email;
         }else{
-            userRootPath = localPath + "/user";
             emailPath = localPath + "/walk/" + email;
         }
 

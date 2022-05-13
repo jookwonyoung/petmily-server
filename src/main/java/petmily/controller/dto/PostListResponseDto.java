@@ -1,6 +1,7 @@
 package petmily.controller.dto;
 
 import lombok.Getter;
+import org.springframework.web.bind.annotation.PathVariable;
 import petmily.domain.posts.Post;
 
 import java.io.FileInputStream;
@@ -33,6 +34,10 @@ public class PostListResponseDto {
             e.printStackTrace();
         }
         this.postContent = entity.getPostContent();
+
+
+
+        //this.userImg = entity.getEmail(@PathVariable Long id)
     }
 
 }
