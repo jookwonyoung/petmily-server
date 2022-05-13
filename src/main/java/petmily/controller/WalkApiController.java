@@ -90,7 +90,7 @@ public class WalkApiController {
     }
 
     @GetMapping("findAll")
-    public List<WalkListResponseDto> findAll(@RequestHeader(value="email") String email){
+    public List<WalkImgListResponseDto> findAll(@RequestHeader(value="email") String email){
         return walkService.findAllDesc(email);
     }
 

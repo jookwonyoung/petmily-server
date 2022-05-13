@@ -26,9 +26,9 @@ public class WalkService {
     }
 
     @Transactional(readOnly = true)
-    public List<WalkListResponseDto> findAllDesc(String email){
+    public List<WalkImgListResponseDto> findAllDesc(String email){
         return walkRepository.findAllDesc(email).stream()
-                .map(WalkListResponseDto::new)
+                .map(WalkImgListResponseDto::new)
                 .collect(Collectors.toList());
     }
 
