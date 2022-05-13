@@ -32,7 +32,7 @@ public class PostApiController {
     @PostMapping("/save")
     public Long save(@RequestHeader(value = "email") String email, @RequestParam("userImg") String userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content) {
 
-        if (new File(ec2Path ).exists()) {
+        if (new File(ec2Path).exists()) {
             postRootPath = ec2Path;        //ec2-server
         } else {
             postRootPath = localPath;     //localhost

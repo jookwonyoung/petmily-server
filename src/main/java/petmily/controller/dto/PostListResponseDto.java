@@ -23,7 +23,7 @@ public class PostListResponseDto {
         String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB";
         //String ec2Path = "/Users/jookwonyoung/Documents/petmily/testImg";
 
-                this.postId = entity.getPostId();
+        this.postId = entity.getPostId();
         this.email = entity.getEmail();
         try {
             InputStream in;
