@@ -33,7 +33,7 @@ public class PostApiController {
     String postRootPath;    //post 폴더
 
     @PostMapping("/save")
-    public Long save(@RequestHeader(value = "email") String email, @RequestParam("userImg") MultipartFile userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content) {
+    public Long save(@RequestHeader(value = "email") String email, @RequestParam("userImg") String userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content) {
 
         if (new File(ec2Path + "/user").exists()) {
             userRootPath = ec2Path + "/user";        //ec2-server
@@ -45,7 +45,7 @@ public class PostApiController {
 
         UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
         saveRequestDto.setEmail(email);
-        saveRequestDto.setUserImg(email);
+        saveRequestDto.setUserImg(userImg);
         Long userId = userService.save(saveRequestDto);
 
         PostSaveRequestDto requestDto = new PostSaveRequestDto();
@@ -53,9 +53,9 @@ public class PostApiController {
         requestDto.setPostContent(content);
         Long postId = postService.save(requestDto);    //저장할 postImg(filename)
 
-        String userConType = userImg.getContentType();
+        //String userConType = userImg.getContentType();
         String conType = files.getContentType();
-        if (!(userConType.equals("image/png") || userConType.equals("image/jpeg") || conType.equals("image/png") || conType.equals("image/jpeg"))) {
+        if (!(conType.equals("image/png") || conType.equals("image/jpeg"))) {
             Long error = null;
             return error;
         }
@@ -64,7 +64,7 @@ public class PostApiController {
         String filePath = postRootPath + "/" + postId;
         try {
             files.transferTo(new File(filePath));
-            userImg.transferTo(new File(userFilePath));
+            //userImg.transferTo(new File(userFilePath));
         } catch (Exception e) {
             e.printStackTrace();
         }
