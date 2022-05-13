@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.File;
 
@@ -17,7 +18,7 @@ public class FlaskTemplate {
 
     @Autowired
     private final RestTemplate restTemplate;
-    String url = "http://wolfwork.iptime.org:34343/";
+    String url = "http://localhost:34343/";
 
     public FlaskTemplate(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
@@ -25,56 +26,56 @@ public class FlaskTemplate {
 
 
     // 개와 고양이의 포함 여부
-    public String postDetectAnimal(File imageFile) {
+    public String requestDetectAnimal(File imageFile) {
         String apiUrl = url + "detect";
 
-        return postRequest(imageFile, apiUrl);
+        return sendRequest(imageFile, apiUrl);
     }
 
-    public String postDetectAnimal(String filePath) {
+    public String requestDetectAnimal(String filePath) {
         String apiUrl = url + "detect";
 
-        return postRequest(filePath, apiUrl);
+        return sendRequest(filePath, apiUrl);
     }
 
 
     // 개의 종 분류
-    public String postBreedDog(File imageFile) {
+    public String requestBreedDog(File imageFile) {
         String apiUrl = url + "predict/breed/dog";
 
-        return postRequest(imageFile, apiUrl);
+        return sendRequest(imageFile, apiUrl);
     }
-    public String postBreedDog(String filePath) {
+    public String requestBreedDog(String filePath) {
         String apiUrl = url + "predict/breed/dog";
 
-        return postRequest(filePath, apiUrl);
+        return sendRequest(filePath, apiUrl);
     }
 
-    public String postBreedCat(File imageFile) {
+    public String requestBreedCat(File imageFile) {
         String apiUrl = url + "predict/breed/cat";
 
-        return postRequest(imageFile, apiUrl);
+        return sendRequest(imageFile, apiUrl);
     }
-    public String postBreedCat(String filePath) {
+    public String requestBreedCat(String filePath) {
         String apiUrl = url + "predict/breed/cat";
 
-        return postRequest(filePath, apiUrl);
+        return sendRequest(filePath, apiUrl);
     }
 
     // 감정 분류
-    public String postEmotion(File imageFile) {
+    public String requestEmotion(File imageFile) {
         String apiUrl = url + "predict/emotion";
 
-        return postRequest(imageFile, apiUrl);
+        return sendRequest(imageFile, apiUrl);
     }
-    public String postEmotion(String filePath) {
+    public String requestEmotion(String filePath) {
         String apiUrl = url + "predict/emotion";
 
-        return postRequest(filePath, apiUrl);
+        return sendRequest(filePath, apiUrl);
     }
 
     @Nullable
-    private String postRequest(File imageFile, String apiUrl) {
+    private String sendRequest(File imageFile, String apiUrl) {
         // write header part
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -91,19 +92,12 @@ public class FlaskTemplate {
     }
 
     @Nullable
-    private String postRequest(String filePath, String apiUrl) {
-        // write header part
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+    private String sendRequest(String filePath, String apiUrl) {
 
-        // write body part
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>(1);
-        body.add("file", filePath);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl).queryParam("path", filePath);
 
-        // write HTTPEntity instance
-        HttpEntity<MultiValueMap<String,String>> requestEntity = new HttpEntity<>(body, headers);
 
         // send request
-        return restTemplate.postForObject(apiUrl, requestEntity, String.class);
+        return restTemplate.getForObject(builder.toUriString(), String.class);
     }
 }
