@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import petmily.controller.dto.UserSaveRequestDto;
 import petmily.controller.dto.WalkImgListResponseDto;
-import petmily.controller.dto.WalkListResponseDto;
 import petmily.controller.dto.WalkSaveRequestDto;
 import petmily.service.user.UserService;
 import petmily.service.walk.WalkService;

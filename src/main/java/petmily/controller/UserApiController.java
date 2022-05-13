@@ -16,7 +16,4 @@ public class UserApiController {
     public Long save(@RequestBody UserSaveRequestDto requestDto){
         return userService.save(requestDto);
     }
-
-    //public String findByEmail()
-
 }

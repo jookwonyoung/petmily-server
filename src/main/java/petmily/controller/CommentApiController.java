@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import petmily.controller.dto.CommentListResponseDto;
 import petmily.controller.dto.CommentSaveRequestDto;
-import petmily.controller.dto.PlaceSaveRequestDto;
 import petmily.service.comment.commentService;
 
 import java.util.List;

@@ -21,16 +21,6 @@ public class PlaceApiController {
         return placeService.save(requestDto);
     }
 
-//    @GetMapping("/findById/{id}")
-//    public PlaceResponseDto findById (@PathVariable Long id){
-//        return placeService.findById(id);
-//    }
-//
-//    @GetMapping("/findAll")
-//    public List<PlaceListResponseDto> findAll () {
-//        return placeService.findAllDesc();
-//    }
-
     @GetMapping("/findByEmail")
     public List<PlaceListResponseDto> findByEmail(@RequestHeader(value="email") String email){
         return placeService.findByEmail(email);

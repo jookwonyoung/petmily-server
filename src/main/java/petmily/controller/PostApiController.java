@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import petmily.controller.dto.PostListResponseDto;
-import petmily.controller.dto.PostResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.controller.dto.UserSaveRequestDto;
 import petmily.service.post.PostService;
@@ -15,7 +14,6 @@ import petmily.service.user.UserService;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -50,7 +48,6 @@ public class PostApiController {
         requestDto.setPostContent(content);
         Long postId = postService.save(requestDto);    //저장할 postImg(filename)
 
-        //String userConType = userImg.getContentType();
         String conType = files.getContentType();
         if (!(conType.equals("image/png") || conType.equals("image/jpeg"))) {
             Long error = null;
@@ -66,28 +63,6 @@ public class PostApiController {
 
         return postId;
     }
-
-
-
-
-//    @GetMapping(value = "/findById/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-//    public PostResponseDto findById (@PathVariable Long id) throws IOException {
-//        PostResponseDto tmpDto = postService.findById(id);
-//
-//        InputStream in;
-//        in = new FileInputStream(localPath+"/post/"+id);
-//        byte[] imgByteArray = in.readAllBytes();
-//        in.close();
-//
-//        String strByte = new String(imgByteArray, StandardCharsets.UTF_8);
-//
-//        System.out.println("strByte"+strByte);
-//
-//        tmpDto.setPostImg(strByte);
-//        //PostEndListResponseDto responseEntity= new PostEndListResponseDto(tmpDto.getPostId(), tmpDto.getEmail(), tmpDto.);
-//        return tmpDto;
-//    }
-
 
     @GetMapping(value = "/getImg/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
@@ -109,8 +84,6 @@ public class PostApiController {
     @GetMapping(value = "/findAll")
     public List<PostListResponseDto> findAll() {
         List<PostListResponseDto> responseDtoList = postService.findAllDesc();
-
-
         return responseDtoList;
     }
 }

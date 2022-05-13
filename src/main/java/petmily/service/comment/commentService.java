@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import petmily.controller.dto.CommentListResponseDto;
 import petmily.controller.dto.CommentSaveRequestDto;
-import petmily.controller.dto.PlaceSaveRequestDto;
-import petmily.controller.dto.PostListResponseDto;
 import petmily.domain.comment.CommentRepository;
 
 import java.util.List;
