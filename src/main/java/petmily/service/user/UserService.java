@@ -21,7 +21,7 @@ public class UserService {
         Long id = userRepository.save(user).getUserId();
         return id;
     }
-//
+
     @Transactional
     public String findImgByEmail(String email){
         return userRepository.findImgByEmail(email).getUserImg();

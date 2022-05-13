@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 public class Post {
-
+//
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //id 자동 할당
     private Long postId;
