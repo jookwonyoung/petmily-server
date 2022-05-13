@@ -39,7 +39,7 @@ public class PostService {
     }
 
     public Boolean isThereCatAndDog(String filePath) {
-        String result = template.postDetectAnimal(filePath);
+        String result = template.requestDetectAnimal(filePath);
 
         // 통신이 제대로 안됬을 경우
         if (result == null) {
