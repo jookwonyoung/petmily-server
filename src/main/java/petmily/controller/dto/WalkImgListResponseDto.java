@@ -1,11 +1,13 @@
 package petmily.controller.dto;
 
+import lombok.Getter;
 import petmily.domain.walk.Walk;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+@Getter
 public class WalkImgListResponseDto {
     private Long walkId;
     private String email;
