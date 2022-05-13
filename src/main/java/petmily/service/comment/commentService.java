@@ -26,10 +26,12 @@ public class commentService {
 
     @Transactional(readOnly = true)
     public List<CommentListResponseDto> findAllDesc(Long postId) {
-        return commentRepository.findAllDesc(postId).stream()
+        List<CommentListResponseDto> result = commentRepository.findAllDesc(postId).stream()
                 .map(comment -> {
                     return new CommentListResponseDto(comment, userService.findImgByEmail(comment.getEmail()));
                 })
                 .collect(Collectors.toList());
+
+        return result;
     }
 }
