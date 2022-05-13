@@ -11,6 +11,9 @@ import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.domain.posts.Post;
 import petmily.domain.posts.PostRepository;
+import petmily.domain.user.User;
+import petmily.domain.user.UserRepository;
+import petmily.service.user.UserService;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final UserService userService;
     private final FlaskTemplate template = new FlaskTemplate(new RestTemplateBuilder());
 
     @Transactional
@@ -33,9 +37,15 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostListResponseDto> findAllDesc() {
-        return postRepository.findAllDesc().stream()
-                .map(PostListResponseDto::new)
+        List<PostListResponseDto> result = postRepository.findAllDesc().stream()
+                .map(post -> {
+                    return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));
+                })
                 .collect(Collectors.toList());
+
+
+
+        return result;
     }
 
     public Boolean isThereCatAndDog(String filePath) {

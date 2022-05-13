@@ -1,6 +1,7 @@
 package petmily.controller.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.bind.annotation.PathVariable;
 import petmily.domain.posts.Post;
 
@@ -9,18 +10,21 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Getter
+@Setter
 public class PostListResponseDto {
 
     private Long postId;
     private String email;
     private byte[] postImg;
     private String postContent;
+    private String userImg;
 
-    public PostListResponseDto(Post entity) {
+    public PostListResponseDto(Post entity, String userImg) {
 
         String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB";
+        //String ec2Path = "/Users/jookwonyoung/Documents/petmily/testImg";
 
-        this.postId = entity.getPostId();
+                this.postId = entity.getPostId();
         this.email = entity.getEmail();
         try {
             InputStream in;
@@ -33,10 +37,7 @@ public class PostListResponseDto {
             e.printStackTrace();
         }
         this.postContent = entity.getPostContent();
-
-
-
-        //this.userImg = entity.getEmail(@PathVariable Long id)
+        this.userImg = userImg;
     }
 
 }
