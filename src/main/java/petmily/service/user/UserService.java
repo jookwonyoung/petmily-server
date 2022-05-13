@@ -19,7 +19,7 @@ public class UserService {
                 .orElse(requestDto.toEntity());
 
         Long id = userRepository.save(user).getUserId();
-        user.update(id);
+        //user.update(id);
         return id;
     }
 }

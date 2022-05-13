@@ -29,17 +29,14 @@ public class PostApiController {
 
     private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg";
     private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB";
-    String userRootPath;    //user 폴더
     String postRootPath;    //post 폴더
 
     @PostMapping("/save")
     public Long save(@RequestHeader(value = "email") String email, @RequestParam("userImg") String userImg, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content) {
 
         if (new File(ec2Path + "/user").exists()) {
-            userRootPath = ec2Path + "/user";        //ec2-server
             postRootPath = ec2Path + "/post";        //ec2-server
         } else {
-            userRootPath = localPath + "/user";     //localhost
             postRootPath = localPath + "/post";     //localhost
         }
 
@@ -60,11 +57,9 @@ public class PostApiController {
             return error;
         }
 
-        String userFilePath = userRootPath + "/" + userId;
         String filePath = postRootPath + "/" + postId;
         try {
             files.transferTo(new File(filePath));
-            //userImg.transferTo(new File(userFilePath));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,47 +67,7 @@ public class PostApiController {
         return postId;
     }
 
-    @PostMapping("/testSave")
-    public Long save(@RequestHeader(value = "email") String email, @RequestParam("postImg") MultipartFile files, @RequestParam("postContent") String content) {
 
-        if (new File(ec2Path + "/user").exists()) {
-            userRootPath = ec2Path + "/user";        //ec2-server
-            postRootPath = ec2Path + "/post";        //ec2-server
-        } else {
-            userRootPath = localPath + "/user";     //localhost
-            postRootPath = localPath + "/post";     //localhost
-        }
-
-        PostSaveRequestDto requestDto = new PostSaveRequestDto();
-        requestDto.setEmail(email);
-        requestDto.setPostContent(content);
-
-        // 파일 형식이 사진이면 저장
-        String conType = files.getContentType();
-        if (!(conType.equals("image/png") || conType.equals("image/jpeg"))) {
-            return null;
-        }
-
-        // 파일에 문제가 없을 경우 저장
-        Long postId = postService.save(requestDto);    //저장할 postImg(filename)
-
-        String filePath = postRootPath + "/" + postId;
-        try {
-            files.transferTo(new File(filePath));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // 개고양이 포함되어있는지 확인하는 코드
-        if (postService.isThereCatAndDog(filePath)) {
-            return postId;
-        } else {
-            // 개와 고양이가 없으면 포스트를 삭제
-            postService.delete(postId);
-        }
-
-        return null;
-    }
 
 
 //    @GetMapping(value = "/findById/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
