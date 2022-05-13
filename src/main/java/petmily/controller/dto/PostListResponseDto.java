@@ -15,7 +15,6 @@ public class PostListResponseDto {
     private String email;
     private byte[] postImg;
     private String postContent;
-    private String userImg;
 
     public PostListResponseDto(Post entity) {
 

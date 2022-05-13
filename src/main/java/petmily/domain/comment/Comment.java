@@ -16,19 +16,18 @@ public class Comment {
     private Long commentId;
 
     @Column(nullable = false)
-    private String postId;
+    private Long postId;
+
+    @Column(nullable = false)
+    private String email;
 
     @Column(nullable = false)
     private String commentContent;
 
-    @Column(nullable = false)
-    private String userId;
-
-
     @Builder
-    public Comment(String postId, String commentContent, String userId){
+    public Comment(Long postId, String email, String commentContent){
         this.postId = postId;
+        this.email = email;
         this.commentContent = commentContent;
-        this.userId = userId;
     }
 }
