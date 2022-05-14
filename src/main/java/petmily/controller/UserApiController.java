@@ -13,7 +13,8 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("/save")
-    public Long save(@RequestBody UserSaveRequestDto requestDto){
+    public Long save(@RequestHeader(value = "email") String email, @RequestBody UserSaveRequestDto requestDto){
+        requestDto.setEmail(email);
         return userService.save(requestDto);
     }
 }
