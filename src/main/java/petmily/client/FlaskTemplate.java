@@ -1,12 +1,12 @@
 package petmily.client;
 
 import org.jetbrains.annotations.Nullable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -14,16 +14,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.File;
 
+@Component
 public class FlaskTemplate {
 
-    @Autowired
     private final RestTemplate restTemplate;
     String url = "http://localhost:34343/";
 
     public FlaskTemplate(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
     }
-
 
     // 개와 고양이의 포함 여부
     public String requestDetectAnimal(File imageFile) {

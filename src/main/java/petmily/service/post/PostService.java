@@ -1,19 +1,14 @@
 package petmily.service.post;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import petmily.client.FlaskTemplate;
 import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.domain.posts.Post;
 import petmily.domain.posts.PostRepository;
 import petmily.service.user.UserService;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 //
@@ -22,7 +17,6 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
-    private final FlaskTemplate template = new FlaskTemplate(new RestTemplateBuilder());
 
     @Transactional
     public Long save(PostSaveRequestDto requestDto){
@@ -44,30 +38,6 @@ public class PostService {
 
 
         return result;
-    }
-
-    public Boolean isThereCatAndDog(String filePath) {
-        String result = template.requestDetectAnimal(filePath);
-
-        // 통신이 제대로 안됬을 경우
-        if (result == null) {
-            return false;
-        }
-
-        // Json to Object Mapper
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        JsonNode node = null;
-        try {
-            node = objectMapper.readTree(result);
-            if (node.get("detected").asText().equals("true")) {
-                return true;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     public void delete(Long postId) {

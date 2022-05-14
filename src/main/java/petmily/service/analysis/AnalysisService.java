@@ -1,14 +1,14 @@
 package petmily.service.analysis;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import petmily.client.FlaskTemplate;
 
 @Service
 @RequiredArgsConstructor
 public class AnalysisService {
-    private final FlaskTemplate template = new FlaskTemplate(new RestTemplateBuilder());
+
+    private final FlaskTemplate template;
 
     public String detectAnimal(String path) {
         return template.requestDetectAnimal(path);
