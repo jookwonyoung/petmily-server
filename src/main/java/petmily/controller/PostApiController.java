@@ -128,7 +128,7 @@ public class PostApiController {
 
     @GetMapping(value = "/findAllLike")
     public List<PostListResponseDto> findAllMyLikePost(@RequestHeader(value = "email") String email) {
-        List<Like> likes = likeService.findLikedPost(email);
+        List<Long> likes = likeService.findLikedPost(email);
         List<PostListResponseDto> responseDtoList = postService.findAllMyLikePost(likes);
         return responseDtoList;
     }

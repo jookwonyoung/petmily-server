@@ -42,7 +42,7 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostListResponseDto> findAllMyLikePost(List<Like> likes){
+    public List<PostListResponseDto> findAllMyLikePost(List<Long> likes){
         List<PostListResponseDto> result = postRepository.findAllDesc().stream()
                 .map(post -> {
                     return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));

@@ -10,6 +10,7 @@ import petmily.domain.like.Like;
 import petmily.domain.like.LikeRepository;
 import petmily.service.user.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +57,8 @@ public class LikeService {
     }
 
 
-    public List<Like> findLikedPost(String email){
-        return likeRepository.findByEmail(email).stream().collect(Collectors.toList());
+    public List<Long> findLikedPost(String email){
+        return likeRepository.findByEmail(email).stream()
+                .map(like -> like.getPostId()).collect(Collectors.toCollection(ArrayList::new));
     }
 }
