@@ -54,7 +54,12 @@ public class LikeService {
         return result;
     }
 
-    public boolean checkPresent(String email){
-        return likeRepository.checkPresent(email).isPresent();
+    public int checkPresent(String email){
+        int result = likeRepository.countEmail(email);
+        if(result > 0) {
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }

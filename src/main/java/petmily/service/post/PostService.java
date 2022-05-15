@@ -42,7 +42,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostListResponseDto> findAllMyLikePost(String email){
-        if(likeService.checkPresent(email)){
+        if(likeService.checkPresent(email) == 1){
             List<PostListResponseDto> result = postRepository.findAllMyLikePost(email).stream()
                     .map(post -> {
                         return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));
