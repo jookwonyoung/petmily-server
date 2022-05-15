@@ -23,16 +23,24 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String postContent;
 
+    @Column(columnDefinition = "TEXT")
+    private String tags;
+
 
     //생성자, PostsSaveRequestDto 의 toEntity() 에서 생성됨
     @Builder
-    public Post(String email, String postImg, String postContent){
+    public Post(String email, String postImg, String postContent, String tags) {
         this.email = email;
         this.postImg = postImg;
         this.postContent = postContent;
+        this.tags = tags;
     }
 
     public void update(Long id) {
         this.postImg = id.toString();
+    }
+
+    public void appendTag(String tag) {
+        this.tags = this.tags + ", " + tag;
     }
 }

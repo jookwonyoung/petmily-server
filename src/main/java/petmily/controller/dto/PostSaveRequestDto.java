@@ -13,12 +13,14 @@ public class PostSaveRequestDto {
     private String email;
     private String postImg;
     private String postContent;
+    private String tags;
 
     @Builder
-    public PostSaveRequestDto(String email, String postImg, String postContent){
+    public PostSaveRequestDto(String email, String postImg, String postContent, String tags){
         this.email = email;
         this.postImg = postImg;
         this.postContent = postContent;
+        this.tags = tags;
     }
 
     public Post toEntity() {
@@ -26,6 +28,7 @@ public class PostSaveRequestDto {
                 .email(email)
                 .postImg(postImg)
                 .postContent(postContent)
+                .tags(tags)
                 .build();
     }
 }

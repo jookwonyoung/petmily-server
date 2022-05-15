@@ -7,7 +7,6 @@ import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.domain.posts.Post;
 import petmily.domain.posts.PostRepository;
-import petmily.service.like.LikeService;
 import petmily.service.user.UserService;
 
 import java.util.List;
@@ -27,6 +26,11 @@ public class PostService {
         return id;
     }
 
+    @Transactional
+    public void appendTag(Long postId, String tag){
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException(String.valueOf(postId)));
+        post.appendTag(tag);
+    }
 
     @Transactional(readOnly = true)
     public List<PostListResponseDto> findAllDesc() {

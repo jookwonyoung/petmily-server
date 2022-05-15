@@ -75,17 +75,28 @@ public class PostApiController {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JsonNode node = objectMapper.readTree(result);
-            if(node.get("detected").asText().equals("true")) {
+            String detected = node.get("detected").asText();
+            if (!detected.equals("false")) {
+
+
                 // 3. post 생성
                 PostSaveRequestDto requestDto = new PostSaveRequestDto();
                 requestDto.setEmail(email);
                 requestDto.setPostContent(content);
+                if (detected.equals("dog")) {
+                    requestDto.setTags("개");
+                } else {
+                    requestDto.setTags("고양이");
+                }
                 Long postId = postService.save(requestDto);    //저장할 postImg(filename)
 
                 // 4. postImg 저장
                 String filePath = postRootPath + "/" + postId;
                 Files.copy(tmpFile.toPath(), new File(filePath).toPath());
                 returnMessage = postId.toString();
+
+                // 5. 자동 태깅 실행
+                analysisService.autoTagging(postId, detected, filePath);
             } else {
                 returnMessage = "개나 고양이가 없는 사진입니다";
             }
@@ -94,7 +105,7 @@ public class PostApiController {
             returnMessage = "내부 서버 오류 - 파일 검사 실패";
         } finally {
             // 파일 삭제
-            if(!tmpFile.delete()) {
+            if (!tmpFile.delete()) {
                 returnMessage = "내부 서버 오류 - 파일 삭제 실패";
             }
         }
