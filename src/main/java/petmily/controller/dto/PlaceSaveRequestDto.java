@@ -16,16 +16,18 @@ public class PlaceSaveRequestDto {
     private String address;
     private String categories;
     private String url;
+    private String userImg;
 
 
     @Builder
-    public PlaceSaveRequestDto(String email, String placeName, String phone, String address, String categories, String url){
+    public PlaceSaveRequestDto(String email, String placeName, String phone, String address, String categories, String url, String userImg){
         this.email = email;
         this.placeName = placeName;
         this.phone = phone;
         this.address = address;
         this.categories = categories;
         this.url = url;
+        this.userImg = userImg;
     }
 
     public Place toEntity() {
