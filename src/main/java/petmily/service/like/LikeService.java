@@ -57,6 +57,6 @@ public class LikeService {
 
 
     public List<Like> findLikedPost(String email){
-        return likeRepository.findByEmail(email);
+        return likeRepository.findByEmail(email).stream().collect(Collectors.toList());
     }
 }
