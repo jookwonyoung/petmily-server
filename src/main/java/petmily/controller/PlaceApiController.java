@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import petmily.controller.dto.PlaceListResponseDto;
 import petmily.controller.dto.PlaceSaveRequestDto;
+import petmily.controller.dto.UserSaveRequestDto;
 import petmily.service.place.PlaceService;
+import petmily.service.user.UserService;
 
 import java.util.List;
 
@@ -13,10 +15,16 @@ import java.util.List;
 @RestController
 public class PlaceApiController {
 
+    private final UserService userService;
     private final PlaceService placeService;
 
     @PostMapping("/save")
     public Long save(@RequestHeader(value="email") String email, @RequestBody PlaceSaveRequestDto requestDto){
+        UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
+        saveRequestDto.setEmail(email);
+        saveRequestDto.setUserImg(requestDto.getUserImg());
+        Long userId = userService.save(saveRequestDto);
+
         requestDto.setEmail(email);
         return placeService.save(requestDto);
     }
