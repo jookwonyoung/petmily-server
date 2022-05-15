@@ -96,7 +96,13 @@ public class PostApiController {
                 returnMessage = postId.toString();
 
                 // 5. 자동 태깅 실행
-                analysisService.autoTagging(postId, detected, filePath);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        analysisService.autoTagging(postId, detected, filePath);
+                    }
+                });
+                thread.start();
             } else {
                 returnMessage = "개나 고양이가 없는 사진입니다";
             }
