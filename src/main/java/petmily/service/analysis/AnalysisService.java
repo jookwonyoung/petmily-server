@@ -3,6 +3,7 @@ package petmily.service.analysis;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import petmily.client.FlaskTemplate;
 import petmily.service.post.PostService;
@@ -30,6 +31,7 @@ public class AnalysisService {
         return template.requestEmotion(path);
     }
 
+    @Async
     public void autoTagging(Long postId, String type, String filePath) {
 
         String breedResult = "";

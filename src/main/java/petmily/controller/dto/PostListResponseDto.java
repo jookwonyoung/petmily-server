@@ -17,6 +17,7 @@ public class PostListResponseDto {
     private byte[] postImg;
     private String postContent;
     private String userImg;
+    private String tags;
 
     public PostListResponseDto(Post entity, String userImg) {
 
@@ -39,6 +40,7 @@ public class PostListResponseDto {
             e.printStackTrace();
         }
         this.postContent = entity.getPostContent();
+        this.tags = entity.getTags();
         this.userImg = userImg;
     }
 
