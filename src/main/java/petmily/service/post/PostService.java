@@ -47,9 +47,7 @@ public class PostService {
                 .map(post -> {
                     return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));
                 })
-//                .filter(post -> {
-//                    return likes.contains(post.getPostId());
-//                })
+                .filter(post -> likes.contains(post.getPostId()))
                 .collect(Collectors.toList());
         return result;
     }
