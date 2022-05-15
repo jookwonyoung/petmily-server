@@ -26,4 +26,9 @@ public class PlaceApiController {
         return placeService.findByEmail(email);
     }
 
+    @DeleteMapping("/delete/{placeId}")
+    public void delete(@PathVariable Long placeId){
+        placeService.delete(placeId);
+    }
+
 }

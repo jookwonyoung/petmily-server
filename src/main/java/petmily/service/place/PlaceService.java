@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import petmily.controller.dto.PlaceListResponseDto;
 import petmily.controller.dto.PlaceSaveRequestDto;
+import petmily.domain.place.Place;
 import petmily.domain.place.PlaceRepository;
 
 import java.util.List;
@@ -25,5 +26,12 @@ public class PlaceService {
         return placeRepository.findByEmail(email).stream()
                 .map(PlaceListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public void delete(Long placeId){
+        Place place = placeRepository.findById(placeId).orElseThrow(
+                () -> new IllegalArgumentException("해당 즐겨찾기 장소가 없습니다. placeId=" + placeId));
+
+        placeRepository.delete(place);
     }
 }
