@@ -84,6 +84,8 @@ public class PostApiController {
                 String filePath = postRootPath + "/" + postId;
                 Files.copy(tmpFile.toPath(), new File(filePath).toPath());
                 returnMessage = postId.toString();
+            } else {
+                returnMessage = "개나 고양이가 없는 사진입니다";
             }
         } catch (Exception e) {
             e.printStackTrace();
