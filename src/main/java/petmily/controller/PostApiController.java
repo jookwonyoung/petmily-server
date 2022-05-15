@@ -18,6 +18,7 @@ import petmily.service.user.UserService;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.List;
 
 @RequestMapping("/api/post")
@@ -81,7 +82,7 @@ public class PostApiController {
 
                 // 4. postImg 저장
                 String filePath = postRootPath + "/" + postId;
-                files.transferTo(new File(filePath));
+                Files.copy(tmpFile.toPath(), new File(filePath).toPath());
                 returnMessage = postId.toString();
             }
         } catch (Exception e) {
