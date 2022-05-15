@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.controller.dto.UserSaveRequestDto;
-import petmily.domain.like.Like;
 import petmily.service.analysis.AnalysisService;
 import petmily.service.like.LikeService;
 import petmily.service.post.PostService;

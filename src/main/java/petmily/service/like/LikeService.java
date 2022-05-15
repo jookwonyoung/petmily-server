@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import petmily.controller.dto.LikeSaveRequestDto;
-import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.UserListResponseDto;
 import petmily.domain.like.Like;
 import petmily.domain.like.LikeRepository;

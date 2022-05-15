@@ -1,4 +1,3 @@
-//저장용 dto
 package petmily.controller.dto;
 
 import lombok.Builder;
