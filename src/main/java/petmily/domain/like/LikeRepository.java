@@ -23,15 +23,7 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
 
 
-//    @Query("EXISTS(SELECT l FROM Like l WHERE l.email = :email)")
-//    boolean checkPresent(@Param("email") String email);
 
-//    @Query("SELECT COUNT(l) > 0" +
-//            "FROM Like l"+
-//            "WHERE l.email = :email")
-//    boolean checkPresent(@Param("email") String email);
-
-    @Query("SELECT COUNT(l) FROM Like l WHERE l.email = :email")
-    int countEmail(@Param("email") String mail);
-
+    @Query("SELECT l FROM Like l WHERE l.email = :email")
+    List<Like> findByEmail(@Param("email") String mail);
 }

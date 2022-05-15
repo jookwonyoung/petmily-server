@@ -11,7 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
 import petmily.controller.dto.UserSaveRequestDto;
+import petmily.domain.like.Like;
 import petmily.service.analysis.AnalysisService;
+import petmily.service.like.LikeService;
 import petmily.service.post.PostService;
 import petmily.service.user.UserService;
 
@@ -28,6 +30,7 @@ public class PostApiController {
 
     private final UserService userService;
     private final PostService postService;
+    private final LikeService likeService;
     private final AnalysisService analysisService;
 
     private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg/post";
@@ -125,7 +128,8 @@ public class PostApiController {
 
     @GetMapping(value = "/findAllLike")
     public List<PostListResponseDto> findAllMyLikePost(@RequestHeader(value = "email") String email) {
-        List<PostListResponseDto> responseDtoList = postService.findAllMyLikePost(email);
+        List<Like> likes = likeService.findLikedPost(email);
+        List<PostListResponseDto> responseDtoList = postService.findAllMyLikePost(likes);
         return responseDtoList;
     }
 }

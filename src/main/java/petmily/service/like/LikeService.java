@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import petmily.controller.dto.LikeSaveRequestDto;
+import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.UserListResponseDto;
 import petmily.domain.like.Like;
 import petmily.domain.like.LikeRepository;
@@ -54,12 +55,8 @@ public class LikeService {
         return result;
     }
 
-    public int checkPresent(String email){
-        int result = likeRepository.countEmail(email);
-        if(result > 0) {
-            return 1;
-        }else{
-            return 0;
-        }
+
+    public List<Like> findLikedPost(String email){
+        return likeRepository.findByEmail(email);
     }
 }

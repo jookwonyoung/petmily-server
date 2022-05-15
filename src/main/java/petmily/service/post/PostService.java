@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
+import petmily.domain.like.Like;
 import petmily.domain.like.LikeRepository;
 import petmily.domain.posts.Post;
 import petmily.domain.posts.PostRepository;
@@ -41,18 +42,16 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostListResponseDto> findAllMyLikePost(String email){
-        if(likeService.checkPresent(email) == 1){
-            List<PostListResponseDto> result = postRepository.findAllMyLikePost(email).stream()
-                    .map(post -> {
-                        return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));
-                    })
-                    .collect(Collectors.toList());
-
-            return result;
-        }else{
-            return null;
-        }
+    public List<PostListResponseDto> findAllMyLikePost(List<Like> likes){
+        List<PostListResponseDto> result = postRepository.findAllDesc().stream()
+                .map(post -> {
+                    return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));
+                })
+                .filter(post -> {
+                    return likes.contains(post.getPostId());
+                })
+                .collect(Collectors.toList());
+        return result;
     }
 
     public void delete(Long postId) {
