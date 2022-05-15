@@ -31,23 +31,23 @@ public class LikeApiController {
         return likeService.createLike(requestDto);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestHeader(value = "email") String email, @RequestParam("postId") Long postId) {
+    @DeleteMapping("/delete/{postId}")
+    public void delete(@RequestHeader(value = "email") String email, @PathVariable Long postId) {
         likeService.delete(email, postId);
     }
 
-    @GetMapping("/aboutMyLike")
-    public int findMyLike(@RequestHeader(value = "email") String email, @RequestParam("postId") Long postId){
+    @GetMapping("/aboutMyLike/{postId}")
+    public int findMyLike(@RequestHeader(value = "email") String email, @PathVariable Long postId){
         return likeService.findMyLike(email, postId);
     }
 
-    @GetMapping("/count")
-    public int countLike(@RequestParam("postId") Long postId){
+    @GetMapping("/count/{postId}")
+    public int countLike(@PathVariable Long postId){
         return likeService.countLike(postId);
     }
 
-    @GetMapping("/users")
-    public List<UserListResponseDto> findAllUser(@RequestParam("postId") Long postId){
+    @GetMapping("/users/{postId}")
+    public List<UserListResponseDto> findAllUser(@PathVariable Long postId){
         return likeService.findAllUser(postId);
     }
 
