@@ -1,13 +1,20 @@
 package petmily.controller.dto;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class EmotionResponseDto {
+    private String message;
     private String category;
-    private HashMap<String,Integer> crop_position = new HashMap<String,Integer>();
-    private HashMap<String,Integer> emotion = new HashMap<String,Integer>();
+    private ArrayList<Integer> crop_position;
+    private Emotion emotion;
 
     public EmotionResponseDto(){
 
     }
+}
+
+class Emotion {
+    public double angry;
+    public double sad;
+    public double happy;
 }
