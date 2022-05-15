@@ -31,6 +31,7 @@ public class PostApiController {
 
     private String localPath = "/Users/jookwonyoung/Documents/petmily/testImg/post";
     private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB/post";
+
     String postRootPath;    //post 폴더
 
     @PostMapping("/save")
@@ -55,7 +56,7 @@ public class PostApiController {
             returnMessage = "올바르지 않은 파일";
         }
 
-        String tmpPath = ec2Path + "/tmp/" + System.currentTimeMillis();
+        String tmpPath = postRootPath + "/tmp/" + System.currentTimeMillis();
         File tmpFile = new File(tmpPath);
         try {
             files.transferTo(tmpFile);
@@ -66,6 +67,7 @@ public class PostApiController {
 
         // 2. 파일 검사
         String result = analysisService.detectAnimal(tmpPath);
+        System.out.println(result);
         // Json to Object Mapper
         ObjectMapper objectMapper = new ObjectMapper();
         try {
