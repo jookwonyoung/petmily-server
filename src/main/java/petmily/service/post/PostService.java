@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import petmily.controller.dto.PostListResponseDto;
 import petmily.controller.dto.PostSaveRequestDto;
+import petmily.domain.like.LikeRepository;
 import petmily.domain.posts.Post;
 import petmily.domain.posts.PostRepository;
+import petmily.service.like.LikeService;
 import petmily.service.user.UserService;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
+    private final LikeService likeService;
 
     @Transactional
     public Long save(PostSaveRequestDto requestDto){
@@ -34,10 +37,22 @@ public class PostService {
                     return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));
                 })
                 .collect(Collectors.toList());
-
-
-
         return result;
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostListResponseDto> findAllMyLikePost(String email){
+        if(likeService.checkPresent(email)){
+            List<PostListResponseDto> result = postRepository.findAllMyLikePost(email).stream()
+                    .map(post -> {
+                        return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));
+                    })
+                    .collect(Collectors.toList());
+
+            return result;
+        }else{
+            return null;
+        }
     }
 
     public void delete(Long postId) {

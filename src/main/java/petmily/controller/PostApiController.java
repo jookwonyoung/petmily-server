@@ -122,4 +122,10 @@ public class PostApiController {
         List<PostListResponseDto> responseDtoList = postService.findAllDesc();
         return responseDtoList;
     }
+
+    @GetMapping(value = "/findAllLike")
+    public List<PostListResponseDto> findAllMyLikePost(@RequestHeader(value = "email") String email) {
+        List<PostListResponseDto> responseDtoList = postService.findAllMyLikePost(email);
+        return responseDtoList;
+    }
 }
