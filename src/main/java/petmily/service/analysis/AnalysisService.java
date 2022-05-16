@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import petmily.client.FlaskTemplate;
+import petmily.controller.dto.Emotion;
 import petmily.controller.dto.EmotionResponseDto;
 import petmily.service.post.PostService;
 
@@ -77,9 +78,30 @@ public class AnalysisService {
 
     public EmotionResponseDto matchEmotionDto(String filePath){
 
-        return template.requestEmotion2(filePath);
+        EmotionResponseDto responseDto = template.requestEmotion2(filePath);
+
+        double angry = responseDto.getEmotion().angry;
+        double sad = responseDto.getEmotion().sad;
+        double happy = responseDto.getEmotion().happy;
+
+        double minimum = Math.min(angry, Math.min(sad, happy));
+
+        minimum = Math.abs(minimum);
+        angry += minimum;
+        sad += minimum;
+        happy += minimum;
+
+        double sum = angry + sad + happy;
+
+        angry = angry/sum*100;
+        sad = sad/sum*100;
+        happy = happy/sum*100;
 
 
+
+        responseDto.setEmotion(new Emotion((int)angry,(int)sad,(int)happy));
+
+        return responseDto;
     }
 
     private String breedNameReplacer(String breedName) {

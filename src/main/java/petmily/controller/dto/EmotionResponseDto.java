@@ -18,8 +18,3 @@ public class EmotionResponseDto {
     }
 }
 
-class Emotion {
-    public double angry;
-    public double sad;
-    public double happy;
-}
