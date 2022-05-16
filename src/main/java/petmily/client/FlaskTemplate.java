@@ -11,6 +11,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import petmily.controller.dto.EmotionResponseDto;
 
 import java.io.File;
 
@@ -73,6 +74,12 @@ public class FlaskTemplate {
         return sendRequest(filePath, apiUrl);
     }
 
+    public EmotionResponseDto requestEmotion2(String filePath) {
+        String apiUrl = url + "predict/emotion";
+
+        return sendRequest2(filePath, apiUrl);
+    }
+
     @Nullable
     private String sendRequest(File imageFile, String apiUrl) {
         // write header part
@@ -98,5 +105,15 @@ public class FlaskTemplate {
 
         // send request
         return restTemplate.getForObject(builder.toUriString(), String.class);
+    }
+
+    @Nullable
+    private EmotionResponseDto sendRequest2(String filePath, String apiUrl) {
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl).queryParam("path", filePath);
+
+
+        // send request
+        return restTemplate.getForObject(builder.toUriString(), EmotionResponseDto.class);
     }
 }

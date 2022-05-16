@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import petmily.controller.dto.EmotionResponseDto;
 import petmily.service.analysis.AnalysisService;
 
 import java.io.File;
@@ -49,16 +50,18 @@ public class AnalysisController {
     }
 
     @GetMapping("/emotion")
-    public String emotion(@RequestParam("img") MultipartFile img) {
+    public EmotionResponseDto emotion(@RequestParam("img") MultipartFile img) {
         String filePath = saveImg(img);
-        if (filePath == null) return "not valid image";
+        if (filePath == null) return null;
 
-        String result = analysisService.emotion(filePath);
+        EmotionResponseDto result = analysisService.matchEmotionDto(filePath);
 
         deleteImg(filePath);
 
         return result;
     }
+
+
 
     private void deleteImg(String filePath) {
         try {

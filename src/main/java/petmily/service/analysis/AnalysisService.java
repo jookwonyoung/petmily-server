@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import petmily.client.FlaskTemplate;
+import petmily.controller.dto.EmotionResponseDto;
 import petmily.service.post.PostService;
 
 @Service
@@ -72,6 +73,13 @@ public class AnalysisService {
         } catch (Exception e) {
             System.out.println("내부 서버 오류 - 자동 태깅 실패");
         }
+    }
+
+    public EmotionResponseDto matchEmotionDto(String filePath){
+
+        return template.requestEmotion2(filePath);
+
+
     }
 
     private String breedNameReplacer(String breedName) {
