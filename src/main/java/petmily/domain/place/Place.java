@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Place {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //id 자동 할당
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long placeId;
 
     @Column(nullable = false)

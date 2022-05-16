@@ -26,8 +26,6 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String tags;
 
-
-    //생성자, PostsSaveRequestDto 의 toEntity() 에서 생성됨
     @Builder
     public Post(String email, String postImg, String postContent, String tags) {
         this.email = email;

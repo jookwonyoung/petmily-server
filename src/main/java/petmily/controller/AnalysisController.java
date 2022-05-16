@@ -19,14 +19,12 @@ public class AnalysisController {
 
     private final AnalysisService analysisService;
 
-
     private String ec2Path = "/home/ec2-user/petmilyServer/step1/imgDB/tmp";
 
     @GetMapping("/breed/dog")
     public String breedDog(@RequestParam("img") MultipartFile img) {
-
-
         String filePath = saveImg(img);
+
         if (filePath == null) return "not valid image";
 
         String result = analysisService.breedDog(filePath);
@@ -35,7 +33,6 @@ public class AnalysisController {
 
         return result;
     }
-
 
     @GetMapping("/breed/cat")
     public String breedCat(@RequestParam("img") MultipartFile img) {
@@ -60,8 +57,6 @@ public class AnalysisController {
 
         return result;
     }
-
-
 
     private void deleteImg(String filePath) {
         try {
