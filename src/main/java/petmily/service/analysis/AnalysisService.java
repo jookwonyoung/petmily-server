@@ -58,13 +58,13 @@ public class AnalysisService {
 
             // Find the highest value among angry, sad, happy
             if (angry > sad && angry > happy) {
-                emotion = "화남";
+                emotion = "화나요";
             }
             if (sad > angry && sad > happy) {
-                emotion = "슬픔";
+                emotion = "슬퍼요";
             }
             if (happy > angry && happy > sad) {
-                emotion = "행복";
+                emotion = "행복해요";
             }
 
             // db update

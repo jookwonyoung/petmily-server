@@ -84,7 +84,7 @@ public class PostApiController {
                 requestDto.setEmail(email);
                 requestDto.setPostContent(content);
                 if (detected.equals("dog")) {
-                    requestDto.setTags("개");
+                    requestDto.setTags("강아지");
                 } else {
                     requestDto.setTags("고양이");
                 }
