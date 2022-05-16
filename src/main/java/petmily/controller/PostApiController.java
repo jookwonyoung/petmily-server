@@ -148,4 +148,9 @@ public class PostApiController {
         List<PostListResponseDto> responseDtoList = postService.findAllMyLikePost(likes);
         return responseDtoList;
     }
+
+    @DeleteMapping(value = "/delete/{postId}")
+    public void delete(@PathVariable Long postId){
+        postService.delete(postId);
+    }
 }

@@ -54,6 +54,9 @@ public class PostService {
     }
 
     public void delete(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+
         postRepository.deleteById(postId);
     }
 }
