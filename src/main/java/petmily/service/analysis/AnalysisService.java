@@ -76,7 +76,7 @@ public class AnalysisService {
         }
     }
 
-    public EmotionResponseDto matchEmotionDto(String filePath){
+    public EmotionResponseDto matchEmotionDto(String filePath) {
 
         EmotionResponseDto responseDto = template.requestEmotion2(filePath);
 
@@ -93,13 +93,12 @@ public class AnalysisService {
 
         double sum = angry + sad + happy;
 
-        angry = angry/sum*100;
-        sad = sad/sum*100;
-        happy = happy/sum*100;
+        angry = Math.floor(angry / sum * 1000) / 10.0;
+        sad = Math.floor(sad / sum * 1000) / 10.0;
+        happy = Math.floor(happy / sum * 1000) / 10.0;
 
 
-
-        responseDto.setEmotion(new Emotion((int)angry,(int)sad,(int)happy));
+        responseDto.setEmotion(new Emotion(angry, sad, happy));
 
         return responseDto;
     }
