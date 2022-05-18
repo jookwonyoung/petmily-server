@@ -95,7 +95,6 @@ public class PostApiController {
                 Files.copy(tmpFile.toPath(), new File(filePath).toPath());
                 returnMessage = postId.toString();
 
-
                 // 5. 자동 태깅 실행
                 Thread thread = new Thread(new Runnable() {
                     @Override
@@ -104,14 +103,12 @@ public class PostApiController {
                     }
                 });
                 thread.start();
-
-
             } else {
                 returnMessage = "개나 고양이가 없는 사진입니다";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            returnMessage = "내부 서버 오류 - 파일 검사 실패";
+            returnMessage = "내부 서버 오류 - 파일 검사 실패: " + returnMessage;
         } finally {
             // 파일 삭제
             if (!tmpFile.delete()) {
