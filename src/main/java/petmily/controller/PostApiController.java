@@ -95,14 +95,20 @@ public class PostApiController {
                 Files.copy(tmpFile.toPath(), new File(filePath).toPath());
                 returnMessage = postId.toString();
 
-                // 5. 자동 태깅 실행
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        analysisService.autoTagging(postId, detected, filePath);
-                    }
-                });
-                thread.start();
+
+                try{
+                    // 5. 자동 태깅 실행
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            analysisService.autoTagging(postId, detected, filePath);
+                        }
+                    });
+                    thread.start();
+                }catch (Exception e){
+                    returnMessage = "태깅 실패";
+                }
+
             } else {
                 returnMessage = "개나 고양이가 없는 사진입니다";
             }
