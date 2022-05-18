@@ -150,7 +150,7 @@ public class PostApiController {
     }
 
     @DeleteMapping(value = "/delete/{postId}")
-    public void delete(@PathVariable Long postId){
-        postService.delete(postId);
+    public String delete(@RequestHeader(value = "email") String email, @PathVariable Long postId){
+        return postService.delete(postId, email);
     }
 }

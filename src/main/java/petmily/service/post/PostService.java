@@ -53,10 +53,20 @@ public class PostService {
         return result;
     }
 
-    public void delete(Long postId) {
+    public String delete(Long postId, String email) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
 
-        postRepository.deleteById(postId);
+
+        try{//삭제 성공
+            if(post.getEmail() == email) {
+                postRepository.delete(post);
+                return "게시글이 삭제되었습니다.";
+            }else {
+                return "자신의 게시글만 삭제할 수 있습니다.";
+            }
+        }catch(Exception e){//삭제 실패
+            return "게시글이 삭제되지 않았습니다.";
+        }
     }
 }
