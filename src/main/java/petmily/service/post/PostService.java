@@ -57,12 +57,11 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
 
-
         try{//삭제 성공
-            if(post.getEmail() == email) {
+            if(post.getEmail().equals(email)) {
                 postRepository.delete(post);
                 return "게시글이 삭제되었습니다.";
-            }else {
+            }else{
                 return "자신의 게시글만 삭제할 수 있습니다.";
             }
         }catch(Exception e){//삭제 실패
