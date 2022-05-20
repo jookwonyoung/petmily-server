@@ -15,7 +15,7 @@ public class CommentListResponseDto {
     private String userImg;
 
 
-    public CommentListResponseDto(Comment entity, String userImg){
+    public CommentListResponseDto(Comment entity, String userImg) {
         this.commentId = entity.getCommentId();
         this.postId = entity.getPostId();
         this.email = entity.getEmail();

@@ -10,7 +10,7 @@ public class UserListResponseDto {
     private String email;
     private String userImg;
 
-    public UserListResponseDto(String email, String userImg){
+    public UserListResponseDto(String email, String userImg) {
         this.email = email;
         this.userImg = userImg;
     }

@@ -20,7 +20,7 @@ public class commentService {
     private final UserService userService;
 
     @Transactional
-    public Long save(CommentSaveRequestDto requestDto){
+    public Long save(CommentSaveRequestDto requestDto) {
         return commentRepository.save(requestDto.toEntity()).getCommentId();
     }
 

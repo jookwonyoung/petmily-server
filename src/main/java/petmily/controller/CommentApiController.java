@@ -19,8 +19,8 @@ public class CommentApiController {
     private final commentService commentService;
 
     @PostMapping("/save")
-    public Long save(@RequestHeader(value="email") String email, @RequestParam("postId") Long postId,
-                     @RequestParam("commentContent") String commentContent, @RequestParam("userImg") String userImg){
+    public Long save(@RequestHeader(value = "email") String email, @RequestParam("postId") Long postId,
+                     @RequestParam("commentContent") String commentContent, @RequestParam("userImg") String userImg) {
 
         UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
         saveRequestDto.setEmail(email);

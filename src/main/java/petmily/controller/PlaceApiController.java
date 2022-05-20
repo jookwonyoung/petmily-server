@@ -19,7 +19,7 @@ public class PlaceApiController {
     private final PlaceService placeService;
 
     @PostMapping("/save")
-    public Long save(@RequestHeader(value="email") String email, @RequestBody PlaceSaveRequestDto requestDto){
+    public Long save(@RequestHeader(value = "email") String email, @RequestBody PlaceSaveRequestDto requestDto) {
         UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
         saveRequestDto.setEmail(email);
         saveRequestDto.setUserImg(requestDto.getUserImg());
@@ -30,12 +30,12 @@ public class PlaceApiController {
     }
 
     @GetMapping("/findByEmail")
-    public List<PlaceListResponseDto> findByEmail(@RequestHeader(value="email") String email){
+    public List<PlaceListResponseDto> findByEmail(@RequestHeader(value = "email") String email) {
         return placeService.findByEmail(email);
     }
 
     @DeleteMapping("/delete/{placeId}")
-    public void delete(@PathVariable Long placeId){
+    public void delete(@PathVariable Long placeId) {
         placeService.delete(placeId);
     }
 

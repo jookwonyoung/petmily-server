@@ -45,6 +45,7 @@ public class FlaskTemplate {
 
         return sendRequest(imageFile, apiUrl);
     }
+
     public String requestBreedDog(String filePath) {
         String apiUrl = url + "predict/breed/dog";
 
@@ -56,6 +57,7 @@ public class FlaskTemplate {
 
         return sendRequest(imageFile, apiUrl);
     }
+
     public String requestBreedCat(String filePath) {
         String apiUrl = url + "predict/breed/cat";
 
@@ -68,6 +70,7 @@ public class FlaskTemplate {
 
         return sendRequest(imageFile, apiUrl);
     }
+
     public String requestEmotion(String filePath) {
         String apiUrl = url + "predict/emotion";
 
@@ -77,7 +80,11 @@ public class FlaskTemplate {
     public EmotionResponseDto requestEmotion2(String filePath) {
         String apiUrl = url + "predict/emotion";
 
-        return sendRequest2(filePath, apiUrl);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl).queryParam("path", filePath);
+
+
+        // send request
+        return restTemplate.getForObject(builder.toUriString(), EmotionResponseDto.class);
     }
 
     @Nullable
@@ -91,7 +98,7 @@ public class FlaskTemplate {
         body.add("file", new FileSystemResource(imageFile));
 
         // write HTTPEntity instance
-        HttpEntity<MultiValueMap<String,Object>> requestEntity = new HttpEntity<>(body, headers);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         // send request
         return restTemplate.postForObject(apiUrl, requestEntity, String.class);
@@ -105,15 +112,5 @@ public class FlaskTemplate {
 
         // send request
         return restTemplate.getForObject(builder.toUriString(), String.class);
-    }
-
-    @Nullable
-    private EmotionResponseDto sendRequest2(String filePath, String apiUrl) {
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl).queryParam("path", filePath);
-
-
-        // send request
-        return restTemplate.getForObject(builder.toUriString(), EmotionResponseDto.class);
     }
 }

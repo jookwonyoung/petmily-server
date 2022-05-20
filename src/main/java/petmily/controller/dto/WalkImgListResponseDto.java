@@ -9,21 +9,21 @@ import java.io.InputStream;
 
 @Getter
 public class WalkImgListResponseDto {
-    private Long walkId;
-    private String email;
-    private int year;
-    private int month;
-    private int day;
+    private final Long walkId;
+    private final String email;
+    private final int year;
+    private final int month;
+    private final int day;
     private byte[] img;
-    private float avgSpeedInKMH;
-    private int distanceInMeters;
-    private long timeInMillis;
-    private int caloriesBurned;
-    private int id;
+    private final float avgSpeedInKMH;
+    private final int distanceInMeters;
+    private final long timeInMillis;
+    private final int caloriesBurned;
+    private final int id;
 
-    public WalkImgListResponseDto(Walk entity){
+    public WalkImgListResponseDto(Walk entity) {
 
-        String emailPath = "/home/ec2-user/petmilyServer/step1/imgDB/walk/"+entity.getEmail();
+        String emailPath = "/home/ec2-user/petmilyServer/step1/imgDB/walk/" + entity.getEmail();
 
         this.walkId = entity.getWalkId();
         this.email = entity.getEmail();

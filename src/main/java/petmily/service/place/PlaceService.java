@@ -17,18 +17,18 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
 
     @Transactional
-    public Long save(PlaceSaveRequestDto requestDto){
+    public Long save(PlaceSaveRequestDto requestDto) {
         return placeRepository.save(requestDto.toEntity()).getPlaceId();
     }
 
     @Transactional(readOnly = true)
-    public List<PlaceListResponseDto> findByEmail(String email){
+    public List<PlaceListResponseDto> findByEmail(String email) {
         return placeRepository.findByEmail(email).stream()
                 .map(PlaceListResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    public void delete(Long placeId){
+    public void delete(Long placeId) {
         Place place = placeRepository.findById(placeId).orElseThrow(
                 () -> new IllegalArgumentException("해당 즐겨찾기 장소가 없습니다. placeId=" + placeId));
 

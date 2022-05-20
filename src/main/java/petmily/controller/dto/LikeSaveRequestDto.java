@@ -14,7 +14,7 @@ public class LikeSaveRequestDto {
     private String email;
 
     @Builder
-    public LikeSaveRequestDto(Long postId, String email){
+    public LikeSaveRequestDto(Long postId, String email) {
         this.postId = postId;
         this.email = email;
     }

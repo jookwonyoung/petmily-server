@@ -19,15 +19,15 @@ public class PostService {
     private final UserService userService;
 
     @Transactional
-    public Long save(PostSaveRequestDto requestDto){
-        Long id =  postRepository.save(requestDto.toEntity()).getPostId();  //실제 db 저장
+    public Long save(PostSaveRequestDto requestDto) {
+        Long id = postRepository.save(requestDto.toEntity()).getPostId();  //실제 db 저장
         Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.valueOf(id)));//수정할 객체(지금 저장한거)
         post.update(id);    //객체의 id를 이미지의 id로 보냄
         return id;
     }
 
     @Transactional
-    public void appendTag(Long postId, String tag){
+    public void appendTag(Long postId, String tag) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException(String.valueOf(postId)));
         post.appendTag(tag);
     }
@@ -43,7 +43,7 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostListResponseDto> findAllMyLikePost(List<Long> likes){
+    public List<PostListResponseDto> findAllMyLikePost(List<Long> likes) {
         List<PostListResponseDto> result = postRepository.findAllDesc().stream()
                 .map(post -> {
                     return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));

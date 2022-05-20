@@ -22,7 +22,7 @@ public class WalkSaveRequestDto {
     private int id;
 
     @Builder
-    public WalkSaveRequestDto(String email, int year, int month, int day, String img, float avgSpeedInKMH, int distanceInMeters, long timeInMillis, int caloriesBurned, int id){
+    public WalkSaveRequestDto(String email, int year, int month, int day, String img, float avgSpeedInKMH, int distanceInMeters, long timeInMillis, int caloriesBurned, int id) {
         this.email = email;
         this.year = year;
         this.month = month;

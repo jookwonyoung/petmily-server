@@ -30,7 +30,7 @@ public class PostListResponseDto {
             InputStream in;
             try {
                 in = new FileInputStream(ec2Path + "/" + entity.getPostId());
-            }catch (IOException e){
+            } catch (IOException e) {
                 in = new FileInputStream(localPath + "/" + entity.getPostId());
             }
             this.postImg = in.readAllBytes();

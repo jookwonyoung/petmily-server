@@ -23,7 +23,7 @@ public class Like {
     private String email;
 
     @Builder
-    public Like(Long postId, String email){
+    public Like(Long postId, String email) {
         this.postId = postId;
         this.email = email;
     }

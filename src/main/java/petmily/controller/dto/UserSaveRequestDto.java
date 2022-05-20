@@ -14,7 +14,7 @@ public class UserSaveRequestDto {
     private String userImg;
 
     @Builder
-    public UserSaveRequestDto(String email, String userImg){
+    public UserSaveRequestDto(String email, String userImg) {
         this.email = email;
         this.userImg = userImg;
     }

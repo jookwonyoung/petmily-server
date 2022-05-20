@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import petmily.client.FlaskTemplate;
-import petmily.controller.dto.Emotion;
 import petmily.controller.dto.EmotionResponseDto;
 import petmily.service.post.PostService;
 
@@ -44,8 +43,8 @@ public class AnalysisService {
         }
         String emotionResult = template.requestEmotion(filePath);
 
-        // get post image emotion
         ObjectMapper objectMapper = new ObjectMapper();
+        // get post image emotion
         try {
             JsonNode breedNode = objectMapper.readTree(breedResult);
             String breed = breedNode.get("top3").get(0).get("breed").asText();
@@ -78,11 +77,63 @@ public class AnalysisService {
 
     public EmotionResponseDto matchEmotionDto(String filePath) {
 
-        EmotionResponseDto responseDto = template.requestEmotion2(filePath);
+        // 초기 변수 세팅
+        JsonNode typeNode = null;
+        JsonNode breedNode = null;
+        JsonNode emotionNode = null;
 
-        double angry = responseDto.getEmotion().angry;
-        double sad = responseDto.getEmotion().sad;
-        double happy = responseDto.getEmotion().happy;
+        // 개 고양이 탐지
+        String typeResult = template.requestDetectAnimal(filePath);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String type = "";
+
+        try {
+            typeNode = objectMapper.readTree(typeResult);
+            type = typeNode.get("detected").asText();
+        } catch (Exception ignored) {
+            return null;
+        }
+
+        // 개고양이를 대상으로 종 분류와 감정분석 실시
+
+        String breedResult = "";
+        // get post image breed
+        if (type.equals("dog")) {
+            breedResult = template.requestBreedDog(filePath);
+        }
+        if (type.equals("cat")) {
+            breedResult = template.requestBreedCat(filePath);
+        }
+        String emotionResult = template.requestEmotion(filePath);
+
+        // get post image emotion
+        try {
+            breedNode = objectMapper.readTree(breedResult);
+            emotionNode = objectMapper.readTree(emotionResult);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        // Node에서 값 추출
+        String top1 = breedNode.get("top3").get(0).get("breed").asText();
+        top1 = breedNameReplacer(top1);
+        Double top1Value = breedNode.get("top3").get(0).get("value").asDouble();
+        String top2 = breedNode.get("top3").get(1).get("breed").asText();
+        top2 = breedNameReplacer(top2);
+        Double top2Value = breedNode.get("top3").get(1).get("value").asDouble();
+        String top3 = breedNode.get("top3").get(2).get("breed").asText();
+        top3 = breedNameReplacer(top3);
+        Double top3Value = breedNode.get("top3").get(2).get("value").asDouble();
+        Double angry = emotionNode.get("emotion").get("angry").asDouble();
+        Double sad = emotionNode.get("emotion").get("sad").asDouble();
+        Double happy = emotionNode.get("emotion").get("happy").asDouble();
+        int leftX = emotionNode.get("crop_posision").get(0).asInt();
+        int rightX = emotionNode.get("crop_posision").get(1).asInt();
+        int leftY = emotionNode.get("crop_posision").get(2).asInt();
+        int rightY = emotionNode.get("crop_posision").get(3).asInt();
 
         double minimum = Math.min(angry, Math.min(sad, happy));
 
@@ -98,9 +149,13 @@ public class AnalysisService {
         happy = Math.floor(happy / sum * 1000) / 10.0;
 
 
-        responseDto.setEmotion(new Emotion(angry, sad, happy));
+        EmotionResponseDto emotionResponseDto = new EmotionResponseDto();
+        emotionResponseDto.setType(type);
+        emotionResponseDto.setBreed(top1,top1Value,top2,top2Value,top3,top3Value);
+        emotionResponseDto.setEmotion(angry, sad, happy);
+        emotionResponseDto.setCropPosition(leftX, leftY, rightX, rightY);
 
-        return responseDto;
+        return emotionResponseDto;
     }
 
     private String breedNameReplacer(String breedName) {

@@ -16,7 +16,7 @@ public class PostSaveRequestDto {
     private String tags;
 
     @Builder
-    public PostSaveRequestDto(String email, String postImg, String postContent, String tags){
+    public PostSaveRequestDto(String email, String postImg, String postContent, String tags) {
         this.email = email;
         this.postImg = postImg;
         this.postContent = postContent;

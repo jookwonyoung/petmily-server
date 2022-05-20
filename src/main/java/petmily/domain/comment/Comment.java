@@ -25,7 +25,7 @@ public class Comment {
     private String commentContent;
 
     @Builder
-    public Comment(Long postId, String email, String commentContent){
+    public Comment(Long postId, String email, String commentContent) {
         this.postId = postId;
         this.email = email;
         this.commentContent = commentContent;

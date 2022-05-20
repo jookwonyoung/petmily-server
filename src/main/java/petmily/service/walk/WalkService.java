@@ -4,7 +4,8 @@ package petmily.service.walk;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import petmily.controller.dto.*;
+import petmily.controller.dto.WalkImgListResponseDto;
+import petmily.controller.dto.WalkSaveRequestDto;
 import petmily.domain.walk.Walk;
 import petmily.domain.walk.WalkRepository;
 
@@ -18,7 +19,7 @@ public class WalkService {
     private final WalkRepository walkRepository;
 
     @Transactional
-    public Long save(WalkSaveRequestDto requestDto){
+    public Long save(WalkSaveRequestDto requestDto) {
         Long id = walkRepository.save(requestDto.toEntity()).getWalkId();
         Walk walk = walkRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.valueOf(id)));
         walk.update(id);
@@ -26,14 +27,14 @@ public class WalkService {
     }
 
     @Transactional(readOnly = true)
-    public List<WalkImgListResponseDto> findAllDesc(String email){
+    public List<WalkImgListResponseDto> findAllDesc(String email) {
         return walkRepository.findAllDesc(email).stream()
                 .map(WalkImgListResponseDto::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<WalkImgListResponseDto> findDateDesc(int year, int month, int day, String email){
+    public List<WalkImgListResponseDto> findDateDesc(int year, int month, int day, String email) {
         return walkRepository.findDateDesc(year, month, day, email).stream()
                 .map(WalkImgListResponseDto::new)
                 .collect(Collectors.toList());

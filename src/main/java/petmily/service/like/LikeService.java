@@ -19,7 +19,7 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final UserService userService;
 
-    public Long createLike(LikeSaveRequestDto requestDto){
+    public Long createLike(LikeSaveRequestDto requestDto) {
         Like like = likeRepository.check(requestDto.getEmail(), requestDto.getPostId())
                 .orElse(requestDto.toEntity());
         Long id = likeRepository.save(like).getLikeId();
@@ -30,24 +30,25 @@ public class LikeService {
         try {
             Like like = likeRepository.findByEmailPostId(email, postId);
             likeRepository.delete(like);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
-    public int findMyLike(String email, Long postId){
-         if(likeRepository.check(email, postId).isPresent()){
-             return 1;
-         }else{
-             return 0;
-         }
+    public int findMyLike(String email, Long postId) {
+        if (likeRepository.check(email, postId).isPresent()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     @Transactional(readOnly = true)
-    public int countLike(Long postId){
+    public int countLike(Long postId) {
         return likeRepository.countLike(postId);
     }
 
     @Transactional(readOnly = true)
-    public List<UserListResponseDto> findAllUser(Long postId){
+    public List<UserListResponseDto> findAllUser(Long postId) {
         List<UserListResponseDto> result = likeRepository.findUserByPostId(postId).stream().map(like -> {
             return new UserListResponseDto(like.getEmail(), userService.findImgByEmail(like.getEmail()));
         }).collect(Collectors.toList());
@@ -56,7 +57,7 @@ public class LikeService {
     }
 
 
-    public List<Long> findLikedPost(String email){
+    public List<Long> findLikedPost(String email) {
         return likeRepository.findByEmail(email).stream()
                 .map(like -> like.getPostId()).collect(Collectors.toCollection(ArrayList::new));
     }

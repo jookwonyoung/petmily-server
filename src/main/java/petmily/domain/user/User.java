@@ -22,7 +22,7 @@ public class User {
 
 
     @Builder
-    public User(String email, String userImg){
+    public User(String email, String userImg) {
         this.email = email;
         this.userImg = userImg;
     }

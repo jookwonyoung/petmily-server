@@ -13,7 +13,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long save(UserSaveRequestDto requestDto){
+    public Long save(UserSaveRequestDto requestDto) {
 
         User user = userRepository.findByEmail(requestDto.getEmail())
                 .orElse(requestDto.toEntity());
@@ -23,7 +23,7 @@ public class UserService {
     }
 
     @Transactional
-    public String findImgByEmail(String email){
+    public String findImgByEmail(String email) {
         return userRepository.findImgByEmail(email).getUserImg();
     }
 }

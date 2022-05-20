@@ -19,7 +19,7 @@ public class LikeApiController {
     private final LikeService likeService;
 
     @PostMapping("/save")
-    public Long createLike(@RequestHeader(value = "email") String email, @RequestParam("postId") Long postId, @RequestParam("userImg") String userImg){
+    public Long createLike(@RequestHeader(value = "email") String email, @RequestParam("postId") Long postId, @RequestParam("userImg") String userImg) {
         UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
         saveRequestDto.setEmail(email);
         saveRequestDto.setUserImg(userImg);
@@ -37,17 +37,17 @@ public class LikeApiController {
     }
 
     @GetMapping("/aboutMyLike/{postId}")
-    public int findMyLike(@RequestHeader(value = "email") String email, @PathVariable Long postId){
+    public int findMyLike(@RequestHeader(value = "email") String email, @PathVariable Long postId) {
         return likeService.findMyLike(email, postId);
     }
 
     @GetMapping("/count/{postId}")
-    public int countLike(@PathVariable Long postId){
+    public int countLike(@PathVariable Long postId) {
         return likeService.countLike(postId);
     }
 
     @GetMapping("/users/{postId}")
-    public List<UserListResponseDto> findAllUser(@PathVariable Long postId){
+    public List<UserListResponseDto> findAllUser(@PathVariable Long postId) {
         return likeService.findAllUser(postId);
     }
 
