@@ -82,36 +82,33 @@ public class AnalysisService {
         JsonNode breedNode = null;
         JsonNode emotionNode = null;
 
-        // 개 고양이 탐지
-        String typeResult = template.requestDetectAnimal(filePath);
-
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String type = "";
+        String emotionResult = template.requestEmotion(filePath);
 
         try {
-            typeNode = objectMapper.readTree(typeResult);
-            type = typeNode.get("detected").asText();
-        } catch (Exception ignored) {
+            emotionNode = objectMapper.readTree(emotionResult);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             return null;
         }
 
         // 개고양이를 대상으로 종 분류와 감정분석 실시
-
-        String breedResult = "";
+        String type = breedNode.get("category").asText();
         // get post image breed
+        String breedResult = "";
         if (type.equals("dog")) {
             breedResult = template.requestBreedDog(filePath);
         }
         if (type.equals("cat")) {
             breedResult = template.requestBreedCat(filePath);
+        } else {
+            return null;
         }
-        String emotionResult = template.requestEmotion(filePath);
 
         // get post image emotion
         try {
             breedNode = objectMapper.readTree(breedResult);
-            emotionNode = objectMapper.readTree(emotionResult);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
