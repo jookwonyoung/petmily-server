@@ -113,8 +113,6 @@ public class AnalysisService {
             return null;
         }
 
-        System.out.println("")
-
         // Node에서 값 추출
         String top1 = breedNode.get("top3").get(0).get("breed").asText();
         top1 = breedNameReplacer(top1);
