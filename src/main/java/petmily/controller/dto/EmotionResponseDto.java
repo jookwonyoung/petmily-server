@@ -4,6 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class EmotionResponseDto {
+
+    private String message;
     private String type;
     private CropPosition cropPosition;
     private Breed breed;
@@ -12,6 +14,10 @@ public class EmotionResponseDto {
     public EmotionResponseDto() {
         this.emotion = null;
         this.breed = null;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public void setType(String type) {
@@ -31,6 +37,7 @@ public class EmotionResponseDto {
     }
 }
 
+@Getter
 class Breed {
     private String top1;
     private double top1_result;
@@ -49,7 +56,7 @@ class Breed {
     }
 }
 
-
+@Getter
 class Emotion {
     private double angry;
     private double sad;
@@ -62,7 +69,7 @@ class Emotion {
         this.happy = happy;
     }
 }
-
+@Getter
 class CropPosition {
     private int leftX;
     private int leftY;

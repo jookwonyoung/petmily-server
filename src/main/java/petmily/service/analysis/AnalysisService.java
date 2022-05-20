@@ -82,35 +82,37 @@ public class AnalysisService {
         JsonNode emotionNode = null;
 
         ObjectMapper objectMapper = new ObjectMapper();
+        EmotionResponseDto emotionResponseDto = new EmotionResponseDto(); // 반환 객체
 
         String emotionResult = template.requestEmotion(filePath);
 
         try {
             emotionNode = objectMapper.readTree(emotionResult);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            emotionResponseDto.setMessage("내부 서버 오류 - 감정 분석 실패");
+            return emotionResponseDto;
         }
 
         // 개고양이를 대상으로 종 분류와 감정분석 실시
-        String type = breedNode.get("category").asText();
+        String type = emotionNode.get("category").asText();
+        System.out.println("애는 무슨 종? " + type);
         // get post image breed
         String breedResult = "";
         if (type.equals("dog")) {
             breedResult = template.requestBreedDog(filePath);
-        }
-        if (type.equals("cat")) {
+        } else if (type.equals("cat")) {
             breedResult = template.requestBreedCat(filePath);
         } else {
-            return null;
+            emotionResponseDto.setMessage("개와 고양이가 포함되어 있지 않은 이미지입니다.");
+            return emotionResponseDto;
         }
 
         // get post image emotion
         try {
             breedNode = objectMapper.readTree(breedResult);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            emotionResponseDto.setMessage("내부 서버 오류 - 품종 분석 실패");
+            return emotionResponseDto;
         }
 
         // Node에서 값 추출
@@ -144,8 +146,6 @@ public class AnalysisService {
         sad = Math.floor(sad / sum * 1000) / 10.0;
         happy = Math.floor(happy / sum * 1000) / 10.0;
 
-
-        EmotionResponseDto emotionResponseDto = new EmotionResponseDto();
         emotionResponseDto.setType(type);
         emotionResponseDto.setBreed(top1,top1Value,top2,top2Value,top3,top3Value);
         emotionResponseDto.setEmotion(angry, sad, happy);
