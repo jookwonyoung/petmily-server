@@ -78,7 +78,6 @@ public class AnalysisService {
     public EmotionResponseDto matchEmotionDto(String filePath) {
 
         // 초기 변수 세팅
-        JsonNode typeNode = null;
         JsonNode breedNode = null;
         JsonNode emotionNode = null;
 
@@ -114,6 +113,8 @@ public class AnalysisService {
             return null;
         }
 
+        System.out.println("")
+
         // Node에서 값 추출
         String top1 = breedNode.get("top3").get(0).get("breed").asText();
         top1 = breedNameReplacer(top1);
@@ -127,10 +128,10 @@ public class AnalysisService {
         Double angry = emotionNode.get("emotion").get("angry").asDouble();
         Double sad = emotionNode.get("emotion").get("sad").asDouble();
         Double happy = emotionNode.get("emotion").get("happy").asDouble();
-        int leftX = emotionNode.get("crop_posision").get(0).asInt();
-        int rightX = emotionNode.get("crop_posision").get(1).asInt();
-        int leftY = emotionNode.get("crop_posision").get(2).asInt();
-        int rightY = emotionNode.get("crop_posision").get(3).asInt();
+        int leftX = emotionNode.get("crop_position").get(0).asInt();
+        int rightX = emotionNode.get("crop_position").get(1).asInt();
+        int leftY = emotionNode.get("crop_position").get(2).asInt();
+        int rightY = emotionNode.get("crop_position").get(3).asInt();
 
         double minimum = Math.min(angry, Math.min(sad, happy));
 
