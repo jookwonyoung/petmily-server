@@ -95,8 +95,7 @@ public class AnalysisService {
 
         // 개고양이를 대상으로 종 분류와 감정분석 실시
         String type = emotionNode.get("category").asText();
-        System.out.println("애는 무슨 종? " + type);
-        // get post image breed
+        // get breed
         String breedResult = "";
         if (type.equals("dog")) {
             breedResult = template.requestBreedDog(filePath);
