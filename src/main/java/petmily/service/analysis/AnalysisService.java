@@ -154,7 +154,6 @@ public class AnalysisService {
     }
 
     private String breedNameReplacer(String breedName) {
-        System.out.println(breedName); // catch unknown breed
         switch (breedName) {
             case "Chihuaha":
                 return "치와와";
@@ -396,6 +395,8 @@ public class AnalysisService {
                 return "승냥이";
             case "African Hunting Dog":
                 return "아프리카들개";
+            case "Dandi Dinmont":
+                return "댄디 딘몬트 테리어";
             case "bengal":
                 return "벵갈";
             case "british shorthair":
