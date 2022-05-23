@@ -154,6 +154,7 @@ public class AnalysisService {
     }
 
     private String breedNameReplacer(String breedName) {
+        System.out.println(breedName); // catch unknown breed
         switch (breedName) {
             case "Chihuaha":
                 return "치와와";
