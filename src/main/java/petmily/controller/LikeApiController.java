@@ -19,7 +19,7 @@ public class LikeApiController {
     private final LikeService likeService;
 
     @PostMapping("/save")
-    public Long createLike(@RequestHeader(value = "email") String email, @RequestParam("postId") Long postId, @RequestParam("userImg") String userImg) {
+    public String createLike(@RequestHeader(value = "email") String email, @RequestParam("postId") Long postId, @RequestParam("userImg") String userImg) {
         UserSaveRequestDto saveRequestDto = new UserSaveRequestDto();
         saveRequestDto.setEmail(email);
         saveRequestDto.setUserImg(userImg);

@@ -19,11 +19,22 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final UserService userService;
 
-    public Long createLike(LikeSaveRequestDto requestDto) {
-        Like like = likeRepository.check(requestDto.getEmail(), requestDto.getPostId())
-                .orElse(requestDto.toEntity());
-        Long id = likeRepository.save(like).getLikeId();
-        return id;
+    public String createLike(LikeSaveRequestDto requestDto) {
+        try {
+            if (likeRepository.check(requestDto.getEmail(), requestDto.getPostId()).isPresent()) {
+                return "이미 좋아요 누른 게시글입니다.";
+            } else {
+                likeRepository.save(requestDto.toEntity());
+                return "좋아요 성공!!";
+            }
+        }catch (Exception e){
+            return "내부 서버 오류 - 좋아요 실패";
+        }
+
+//        Like like = likeRepository.check(requestDto.getEmail(), requestDto.getPostId())
+//                .orElse(requestDto.toEntity());
+//        Long id = likeRepository.save(like).getLikeId();
+//        return id;
     }
 
     public void delete(String email, Long postId) {
