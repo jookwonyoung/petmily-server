@@ -53,12 +53,13 @@ public class PostApiController {
 
         String returnMessage = "";
 
-        // 1. 파일 저장
+        // 확장자 확인
         String conType = files.getContentType();
         if (!(conType.equals("image/png") || conType.equals("image/jpeg"))) {
             returnMessage = "올바르지 않은 파일";
         }
 
+        // 1. 파일 저장
         String tmpPath = postRootPath + "/tmp/" + System.currentTimeMillis();
         File tmpFile = new File(tmpPath);
         try {
@@ -125,6 +126,23 @@ public class PostApiController {
         try {
             try {
                 in = new FileInputStream(ec2Path + "/" + id);   //파일 읽어오기
+            } catch (Exception e) {
+                in = new FileInputStream(localPath + "/" + id);   //파일 읽어오기
+            }
+            byte[] imgByteArray = in.readAllBytes();                    //byte로 변환
+            in.close();
+            return new ResponseEntity<byte[]>(imgByteArray, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/getTestImg/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getTestImage(@PathVariable Long id) {
+        InputStream in;
+        try {
+            try {
+                in = new FileInputStream(ec2Path + "/tmp/" + id);   //파일 읽어오기
             } catch (Exception e) {
                 in = new FileInputStream(localPath + "/" + id);   //파일 읽어오기
             }
