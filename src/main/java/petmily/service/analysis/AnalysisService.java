@@ -241,8 +241,8 @@ public class AnalysisService {
                 return "케언 테리어";
             case "Australian Terrier":
                 return "오스트레일리안 테리어";
-            case "댄디 딘몬트 테리어":
-                return "";
+            case "Dandi Dinmont":
+                return "댄디 딘몬트 테리어";
             case "Boston Bull":
                 return "보스턴 테리어";
             case "Miniature Schnauzer":
@@ -395,8 +395,6 @@ public class AnalysisService {
                 return "승냥이";
             case "African Hunting Dog":
                 return "아프리카들개";
-            case "Dandi Dinmont":
-                return "댄디 딘몬트 테리어";
             case "bengal":
                 return "벵갈";
             case "british shorthair":
