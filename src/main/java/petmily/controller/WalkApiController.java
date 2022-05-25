@@ -42,6 +42,7 @@ public class WalkApiController {
         saveRequestDto.setUserImg(userImg);
         Long userId = userService.save(saveRequestDto);
 
+        // 1. walk 저장객체 생성, 저장
         WalkSaveRequestDto requestDto = new WalkSaveRequestDto();
         requestDto.setEmail(email);
         requestDto.setYear(year);
@@ -60,12 +61,14 @@ public class WalkApiController {
             emailPath = localPath + "/" + email;
         }
 
+        // 확장자 체크
         String conType = files.getContentType();
         if (!(conType.equals("image/png") || conType.equals("image/jpeg"))) {
             Long error = null;
             return error;
         }
 
+        // 2. 사용자 이메일 디렉토리 생성
         if (!new File(emailPath).exists()) {
             try {
                 new File(emailPath).mkdir();
@@ -74,6 +77,7 @@ public class WalkApiController {
             }
         }
 
+        // 3. 산책 이미지 저장
         String filePath = emailPath + "/" + walkId;
         try {
             files.transferTo(new File(filePath));
