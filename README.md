@@ -1,19 +1,15 @@
 # petmily-server
 
-[Petmily Android Application](https://github.com/bagoonichanger/Petmliy_android_app)  
+[Petmily_Android_Application](https://github.com/bagoonichanger/Petmliy_android_app)  
 [Petmily_Flask_Server](https://github.com/wolfdate25/Petmily_flask_server)
 
 ## 목차
 
-[1. 개요](#1-개요)
-
-[2. 개발 환경](#2-개발-환경)
-
-[3. 기능](#3-기능)
-
-[REST API 한눈에 보기](#Rest-API-한눈에-보기)
-
-[4. 테이블 구조](#4-테이블-구조)
+[1. 개요](#1-개요)  
+[2. 개발 환경](#2-개발-환경)  
+[3. 기능](#3-기능)  
+[REST API 한눈에 보기](#Rest-API-한눈에-보기)  
+[4. 테이블 구조](#4-테이블-구조)  
 
 ## 1. 개요
 
