@@ -209,11 +209,62 @@ buildscript {
 
 * 등록되 전체 게시글 조회
 
-  
+  #### PostService.java
+
+  ```java
+      @Transactional(readOnly = true)
+      public List<PostListResponseDto> findAllDesc() {
+          List<PostListResponseDto> result = postRepository.findAllDesc().stream()
+                  .map(post -> {
+                      return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));
+                  })
+                  .collect(Collectors.toList());
+          return result;
+      }
+  ```
 
 * 사용자가 좋아요 누른 게시글 조회
 
+  #### PostService.java
+
+  ```java
+      @Transactional(readOnly = true)
+      public List<PostListResponseDto> findAllMyLikePost(List<Long> likes) {
+          List<PostListResponseDto> result = postRepository.findAllDesc().stream()
+                  .map(post -> {
+                      return new PostListResponseDto(post, userService.findImgByEmail(post.getEmail()));
+                  })
+                  .filter(post -> likes.contains(post.getPostId()))
+                  .collect(Collectors.toList());
+          return result;
+      }
+  ```
+
+  
+
 * 게시글 삭제
+
+  #### PostService.java
+
+  ```java
+      public String delete(Long postId, String email) {
+          Post post = postRepository.findById(postId).orElseThrow(
+                  () -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+  
+          try{//삭제 성공
+              if(post.getEmail().equals(email)) {
+                  postRepository.delete(post);
+                  return "게시글이 삭제되었습니다.";
+              }else{
+                  return "자신의 게시글만 삭제할 수 있습니다.";
+              }
+          }catch(Exception e){//삭제 실패
+              return "게시글이 삭제되지 않았습니다.";
+          }
+      }
+  ```
+
+  
 
 
 
@@ -446,4 +497,8 @@ public class PlaceService {
   ```
 
   
+  
 
+## 4. 테이블
+
+![table](https://user-images.githubusercontent.com/95841885/170878351-5ac1778e-2113-4a6d-a3e3-28cd41c14546.png)
