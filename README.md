@@ -59,7 +59,7 @@ buildscript {
 
 
 #### Rest API 한눈에 보기
-![Rest API for Client](https://user-images.githubusercontent.com/95841885/170881168-1631f7a9-5c41-46f1-8b81-2e814504bd84.png)
+![스크린샷 2022-05-30 오전 2 03 11](https://user-images.githubusercontent.com/95841885/170882524-041ec5fa-f351-47b2-a415-4c9952981936.png)
 
 
 
