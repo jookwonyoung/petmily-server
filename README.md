@@ -123,12 +123,97 @@ buildscript {
 
 ### 3-3. 게시글
 
-1. 전송받은 post 이미지를 EC2 로컬 임시 폴더에 저장
-2. 
+* 저장
 
+  1. 전송받은 post 이미지를 EC2 로컬 임시 폴더에 저장
 
+     #### PostApiController.java
 
+     ```java
+            String tmpPath = postRootPath + "/tmp/" + System.currentTimeMillis();
+             File tmpFile = new File(tmpPath);
+             try {
+                 files.transferTo(tmpFile);
+             } catch (Exception e) {
+                 e.printStackTrace();
+                 returnMessage = "내부 서버 오류 - 파일 저장 실패";
+             }
+     ```
 
+  2. Flask 서버에서 이미지에 개나 고양이 사진이 포함되어 있는지 확인
+
+     #### PostApiController.java
+
+     ```java
+     String result = analysisService.detectAnimal(tmpPath);
+     ```
+
+     #### AnalysisService.java
+
+     ```java
+        public String detectAnimal(String path) {
+             return template.requestDetectAnimal(path);
+         }
+     ```
+
+  3. 개나 고양이 사진이 있다면 post 저장 객체 생성 후 "강아지" 또는 "고양이" 태그 추가
+
+     #### PostApiController.java
+
+     ```java
+     PostSaveRequestDto requestDto = new PostSaveRequestDto();
+     requestDto.setEmail(email);
+     requestDto.setPostContent(content);
+     if (detected.equals("dog")) {
+         requestDto.setTags("강아지");
+     } else {
+         requestDto.setTags("고양이");
+     }
+     ```
+
+  4. 글 내용을 포함한 저장 객체 DB에 저장
+
+     #### PostApiController.java
+
+     ```java
+     Long postId = postService.save(requestDto);
+     ```
+
+  5. 이미지를 임시 폴더에서 메인 폴더로 복사 후, 클라이언트에 게시글 저장 완료 메세지 return
+
+     #### PostApiController.java
+
+     ```java
+     String filePath = postRootPath + "/" + postId;
+     Files.copy(tmpFile.toPath(), new File(filePath).toPath());
+     returnMessage = postId.toString();
+     ```
+
+  6. Flask 서버에서 동물의 종, 감정 분석 결과 return
+
+  7. 비동기로 return 값을 태그로 추가 후 DB에 반영
+
+     #### PostApiController.java
+
+     ```java
+     Thread thread = new Thread(new Runnable() {
+     	@Override
+     	public void run() {
+     	    analysisService.autoTagging(postId, detected, filePath);
+     	}
+     });
+     thread.start();
+     ```
+
+     
+
+* 등록되 전체 게시글 조회
+
+  
+
+* 사용자가 좋아요 누른 게시글 조회
+
+* 게시글 삭제
 
 
 
@@ -141,17 +226,17 @@ buildscript {
   #### CommentApiController.java
 
   ```java
-  @PostMapping("/save")
-  public Long save(@RequestHeader(value = "email") String email, 
-  									@RequestParam("postId") Long postId,
-                    @RequestParam("commentContent") String commentContent, 				  												@RequestParam("userImg") String userImg) {
+      @PostMapping("/save")
+      public Long save(@RequestHeader(value = "email") String email, @RequestParam("postId") Long postId,
+                       @RequestParam("commentContent") String commentContent, @RequestParam("userImg") String userImg) {
+  
           CommentSaveRequestDto requestDto = new CommentSaveRequestDto();
           requestDto.setEmail(email);
           requestDto.setPostId(postId);
           requestDto.setCommentContent(commentContent);
   
           return commentService.save(requestDto);
-  }
+      }
   ```
 
 * 한 게시글에 대한 모든 댓글 return
@@ -159,17 +244,17 @@ buildscript {
   #### commentService.java
 
   ```java
-  @Transactional(readOnly = true)
-  public List<CommentListResponseDto> findAllDesc(Long postId) {
-      List<CommentListResponseDto> result = commentRepository.findAll().stream()
-              .map(comment -> {
-                  return new CommentListResponseDto(comment, 																							userService.findImgByEmail(comment.getEmail()));
-              })
-              .filter(comment -> comment.getPostId() == postId)
-              .collect(Collectors.toList());
+      @Transactional(readOnly = true)
+      public List<CommentListResponseDto> findAllDesc(Long postId) {
+          List<CommentListResponseDto> result = commentRepository.findAll().stream()
+                  .map(comment -> {
+                      return new CommentListResponseDto(comment, userService.findImgByEmail(comment.getEmail()));
+                  })
+                  .filter(comment -> comment.getPostId() == postId)
+                  .collect(Collectors.toList());
   
-      return result;
-  }
+          return result;
+      }
   ```
 
   
@@ -181,18 +266,17 @@ buildscript {
   #### LikeService.java
 
   ```java
-  public String createLike(LikeSaveRequestDto requestDto) {
-      try {
-          if (likeRepository.check(requestDto.getEmail(), 																																									requestDto.getPostId()).isPresent()) {
-              return "이미 좋아요 누른 게시글입니다.";
-          } else {
-              likeRepository.save(requestDto.toEntity());
-              return "좋아요 성공!!";
+      public String createLike(LikeSaveRequestDto requestDto) {
+          try {
+              if (likeRepository.check(requestDto.getEmail(), requestDto.getPostId()).isPresent()) {
+                  return "이미 좋아요 누른 게시글입니다.";
+              } else {
+                  likeRepository.save(requestDto.toEntity());
+                  return "좋아요 성공!!";
+              }
+          }catch (Exception e){
+              return "내부 서버 오류 - 좋아요 실패";
           }
-      }catch (Exception e){
-          return "내부 서버 오류 - 좋아요 실패";
-      }
-  }
   ```
 
 * 좋아요 취소
