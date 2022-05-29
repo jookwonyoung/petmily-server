@@ -500,4 +500,4 @@ public class PlaceService {
 
 ## 4. 테이블
 
-![table](/petmily-server/Images/table.png)
+![table](jookwonyoung/petmily-server/Images/table.png)
