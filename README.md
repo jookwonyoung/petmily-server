@@ -6,7 +6,7 @@
 
 Petmily 모바일 어플리케이션의 메인 서버이다. 
 
-통신 대상은 클라이언트와 Flask 서버 이고, 모든 기능은 REST API로 구현되어 있다.
+통신 대상은 클라이언트와 Flask 서버 이고, 모든 기능은 REST API를 기반으로 한다.
 
 
 
@@ -14,7 +14,7 @@ Petmily 모바일 어플리케이션의 메인 서버이다.
 
 * AWS EC2 인스턴스, RDS
 * IntelliJ IDEA
-* Spring Boot 2.1.7.RELEASE
+* Spring Boot
 
 ​	build.gradle
 
@@ -38,6 +38,13 @@ buildscript {
 
 
 ### 3. 기능
+
+|   패키지   | 기능 |
+| :-----: | :--: |
+|   client   |      |
+| controller |      |
+|   domain   |      |
+|  service   |      |
 
 
 
