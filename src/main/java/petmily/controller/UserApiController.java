@@ -17,4 +17,5 @@ public class UserApiController {
         requestDto.setEmail(email);
         return userService.save(requestDto);
     }
+
 }
