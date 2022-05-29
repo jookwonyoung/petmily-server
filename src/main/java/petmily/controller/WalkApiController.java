@@ -98,21 +98,4 @@ public class WalkApiController {
     public void delete(@RequestHeader(value = "email") String email, @PathVariable int id, @PathVariable int year, @PathVariable int month, @PathVariable int day) {
         walkService.delete(id, year, month, day, email);
     }
-
-    @GetMapping(value = "/getImg/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImage(@RequestHeader(value = "email") String email, @PathVariable Long id) {
-        InputStream in;
-        try {
-            try {
-                in = new FileInputStream(ec2Path + "/walk/" + email + "/" + id);
-            } catch (Exception e) {
-                in = new FileInputStream(localPath + "/walk/" + email + "/" + id);
-            }
-            byte[] imgByteArray = in.readAllBytes();
-            in.close();
-            return new ResponseEntity<byte[]>(imgByteArray, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }
