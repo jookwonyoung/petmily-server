@@ -8,7 +8,7 @@
 
 [REST API 한눈에 보기](#Rest-API-한눈에-보기)
 
-[4. 테이블](#4-테이블)
+[4. 테이블](#4-테이블-)
 
 ## 1. 개요
 
@@ -511,6 +511,6 @@ public class PlaceService {
   
   
 
-## 4. 테이블
+## 4. 테이블 
 
 ![table](https://user-images.githubusercontent.com/95841885/170878351-5ac1778e-2113-4a6d-a3e3-28cd41c14546.png)
