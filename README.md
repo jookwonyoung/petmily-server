@@ -1,6 +1,6 @@
 # petmily-server
 
-[Petmily Android Application](https://github.com/bagoonichanger/Petmliy_android_app)
+[Petmily Android Application](https://github.com/bagoonichanger/Petmliy_android_app)  
 [Petmily_Flask_Server](https://github.com/wolfdate25/Petmily_flask_server)
 
 ## 목차
