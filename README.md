@@ -500,4 +500,4 @@ public class PlaceService {
 
 ## 4. 테이블
 
-![table](blob/master/Images/table.png)
+![table](/blob/master/Images/table.png)
