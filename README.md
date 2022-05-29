@@ -49,6 +49,10 @@ buildscript {
 |  service   |             내부 서비스 로직과 트랜잭션 스케줄             |
 
 
+#### Rest API 한눈에 보기
+![Rest API for Client](https://user-images.githubusercontent.com/95841885/170881168-1631f7a9-5c41-46f1-8b81-2e814504bd84.png)
+
+
 
 ### 3-1. 로그인
 
